@@ -4,3 +4,11 @@
 .nav-login {
   margin-left: 15px;
 }
+.marcador-link {
+  text-decoration: none;
+  color: #000000;
+  font-size: 15px;
+}
+.footer {
+  background-color:  #add8e6;
+}

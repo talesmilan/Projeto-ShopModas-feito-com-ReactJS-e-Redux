@@ -31,10 +31,10 @@ function NavBar(args) {
               <NavLink className="nav-link" to="/produtos" >Produtos</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav-link" to="/sobre">Sobre</NavLink>
+              <NavLink className="nav-link" to="/contato">Contato</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav-link" to="/contato">Contato</NavLink>
+              <NavLink className="nav-link" to="/sobre">Sobre</NavLink>
             </NavItem>
           </Nav>
           <NavbarText>Cadastrar</NavbarText>
