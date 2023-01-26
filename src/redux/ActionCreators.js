@@ -1,13 +1,14 @@
 import * as ActionTypes from './ActionsTypes'
 import { baseUrl } from '../baseUrl'
 
-export const addComment = (comment) => ({
+export const addComment = (comentarios) => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: comment
+    payload: comentarios
 })
 
 export const postComment = (produtoId, nota, autor, comentario) => (dispatch) => {
 
+    console.log("cheguei no postcoment")
     const newComment = {
         produtoId: produtoId,
         nota: nota,
@@ -16,6 +17,7 @@ export const postComment = (produtoId, nota, autor, comentario) => (dispatch) =>
     }
 
     newComment.data = new Date().toISOString()
+
 
     return fetch(baseUrl + 'comentarios', {
         method: 'POST',
@@ -39,7 +41,10 @@ export const postComment = (produtoId, nota, autor, comentario) => (dispatch) =>
             throw errmess
         })
         .then(response => response.json())
-        .then(response => dispatch(addComment(response)))
+        .then(response => {
+            console.log("cheguei aqui")
+            console.log(response)
+            return dispatch(addComment(response))})
         .catch(error => {console.log('Post comments ', error.message)
             alert("Seu comentário não pode ser postado.\nErro: " + error.message)})
 }
