@@ -1,6 +1,6 @@
 import Navbar from './Navbar'
 import Jumbotron from './Jumbotron'
-import {BrowserRouter as Router, Routes, Route,} from 'react-router-dom'
+import { Switch, Route, withRouter, Redirect} from 'react-router-dom'
 import PaginaInicial from './pages/PaginaInicial'
 import Produtos from './pages/Produtos'
 import Sobre from './pages/Sobre'
@@ -9,36 +9,53 @@ import { useEffect, useState } from 'react'
 import { baseUrl } from '../baseUrl'
 import RenderProduto from './pages/RenderProduto'
 import Footer from './Footer'
+import { postComment, postFeedback, fetchProdutos, fetchComments } from '../redux/ActionCreators';
+import {connect} from 'react-redux'
 
+const mapStateToProps = state => {
+    return {
+      produtos: state.produtos,
+      comentarios: state.comentarios
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => ({
+    postComment: (produtoId, nota, autor, comentario) => dispatch(postComment(produtoId, nota, autor, comentario)),
+    fetchProdutos: () => { dispatch(fetchProdutos())},
+    fetchComments: () => dispatch(fetchComments())
+  });
 
-const Main = () => {
+const Main = (props) => {
 
-    const [produtos, setProdutos] = useState([])
 
     useEffect(() => {
-        fetch(baseUrl + 'produtos')
-        .then((response) => response.json())
-        .then(response => setProdutos(response))
+
+        props.fetchProdutos();
+        props.fetchComments();
+
     }, [])
+
+        const RenderProdutoId = ({match}) => {
+            return (<div>Teste {console.log(match)} </div>)
+        }
 
         return(
             <div>
-                <Router>
-                    <Navbar />
-                    <Jumbotron />
-                    <Routes>
-                        <Route path="/" element={<PaginaInicial produtos={produtos} />}/>
-                        <Route path="/produtos" element={<Produtos />}/> 
-                        <Route path="/produto/:produtoId" 
-                            element={<RenderProduto produtos={produtos} />} />    
-                        <Route path="/contato" element={<Contato />}/> 
-                        <Route path="/sobre" element={<Sobre />}/>
-                    </Routes>
-                    <Footer />
-                </Router>
+                <Navbar />
+                <Jumbotron />
+                <Switch>
+                    <Route path="/pagina-inicial" component={() => <PaginaInicial produtos={props.produtos.produtos} />}/>
+                    <Route path="/produtos" component={() => <Produtos />}/> 
+                    <Route path="/produto/:produtoId" 
+                        component={({match}) => <RenderProduto produtos={props.produtos.produtos} comentarios={props.comentarios.comentarios} params={match.params.produtoId} />} />    
+                    <Route path="/contato" component={() => <Contato />}/> 
+                    <Route path="/sobre" component={() => <Sobre />}/>
+                    <Redirect to="pagina-inicial" />
+                </Switch>
+                <Footer />
             </div>
         )
     }
 
 
-export default Main
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main))

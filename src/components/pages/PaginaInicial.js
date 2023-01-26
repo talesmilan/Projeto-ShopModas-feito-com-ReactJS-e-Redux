@@ -35,6 +35,7 @@ const PaginaInicial = ({produtos}) => {
         <div>
             <h1 className='mx-5'>Destaques</h1>
             <div className="row offset-1">{menu}</div>
+            
 
         </div>
     )
