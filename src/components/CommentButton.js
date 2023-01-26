@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Button, Modal, Form, ModalBody, FormGroup, ModalHeader, Label, Input} from 'reactstrap'
-import { postComment } from '../redux/ActionCreators';
+
 
 
 const CommentButton = ({produtoId}) => {
@@ -32,7 +32,6 @@ const CommentButton = ({produtoId}) => {
       const handleComment = (values) => {
         values.preventDefault()
         toggleModal()
-        postComment(produtoId, dados.rating, dados.name, dados.comment)
         console.log(dados)
       }
 
