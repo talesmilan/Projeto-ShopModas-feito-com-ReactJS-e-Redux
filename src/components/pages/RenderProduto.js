@@ -35,27 +35,34 @@ const RenderProduto = ({produtos}) => {
         fetchComentario()
     }, [])
 
-    return (
-        <div>
-            <h1 className="mx-5">{produtos[params.produtoId].nome}</h1>
-            <div className="row">
-                <div className="offset-1 col-12 col-sm-5 my-5">
-                    <img height="350px" src={baseUrl + produtos[params.produtoId].imagem} alt={produtos[params.produtoId].nome} />
+    if (produtos.length > 0) {
+        return (
+            <div>
+                <h1 className="mx-5">{produtos[params.produtoId].nome}</h1>
+                <div className="row">
+                    <div className="offset-1 col-12 col-sm-5 my-5">
+                        <img height="350px" src={baseUrl + produtos[params.produtoId].imagem} alt={produtos[params.produtoId].nome} />
+                    </div>
+                    <div className="col-12 col-sm-4 my-5">
+                        <h1>Preço: R${produtos[params.produtoId].preco}</h1>
+                        <button className="btn btn-success btn-lg my-4 col-12">Comprar</button>
+                        <button className="btn btn-danger btn-lg col-12">Adicionar no Carinho</button>
+                        <p className="my-5">{produtos[params.produtoId].descricao}</p>
+                    </div>
                 </div>
-                <div className="col-12 col-sm-4 my-5">
-                    <h1>Preço: R${produtos[params.produtoId].preco}</h1>
-                    <button className="btn btn-success btn-lg my-4 col-12">Comprar</button>
-                    <button className="btn btn-danger btn-lg col-12">Adicionar no Carinho</button>
-                    <p className="my-5">{produtos[params.produtoId].descricao}</p>
+                <div className="row">
+                    <RenderComentarios comentarios={comentarios} produtoId={params.produtoId} />
+                    <CommentButton produtoId={params.produtoId} fetchComentario={fetchComentario} />
                 </div>
+    
             </div>
-            <div className="row">
-                <RenderComentarios comentarios={comentarios} produtoId={params.produtoId} />
-                <CommentButton produtoId={params.produtoId} fetchComentario={fetchComentario} />
-            </div>
+        )
+    } else {
+        return (
+            <div></div>
+        )
+    }
 
-        </div>
-    )
 }
 
 export default RenderProduto

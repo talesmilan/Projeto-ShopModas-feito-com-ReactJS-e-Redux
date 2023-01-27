@@ -12,3 +12,19 @@
 .footer {
   background-color:  #add8e6;
 }
+.bairro {
+  float: left;
+}
+.numero{
+  float: right;
+}
+.link-navbar {
+  text-decoration: none;
+  color: #000000;
+}
+.botaoBuscar {
+  float: right;
+}
+.inputBuscar {
+  float: left;
+}

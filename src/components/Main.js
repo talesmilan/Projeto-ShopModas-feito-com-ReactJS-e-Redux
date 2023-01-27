@@ -1,15 +1,15 @@
 import Navbar from './Navbar'
 import Jumbotron from './Jumbotron'
-import { Routes, Route, useParams} from 'react-router-dom'
+import { Routes, Route} from 'react-router-dom'
 import PaginaInicial from './pages/PaginaInicial'
-import Produtos from './pages/Produtos'
 import Sobre from './pages/Sobre'
 import Contato from './pages/Contato'
 import { useEffect, useState } from 'react'
 import { baseUrl } from '../baseUrl'
 import RenderProduto from './pages/RenderProduto'
 import Footer from './Footer'
-import { fetchProdutos } from './FetchsExport'
+import Cadastro from './pages/Cadastro'
+import Buscar from './pages/Buscar'
 
 
 const Main = (props) => {
@@ -46,11 +46,12 @@ const Main = (props) => {
                 <Jumbotron />
                 <Routes>
                     <Route path="/" element={<PaginaInicial produtos={produtos} />}/>
-                    <Route path="/produtos" element={<Produtos />}/> 
                     <Route path="/produto/:produtoId" 
                         element={<RenderProduto produtos={produtos} />} />    
                     <Route path="/contato" element={ <Contato />}/> 
                     <Route path="/sobre" element={<Sobre />}/>
+                    <Route path="/cadastro" element={<Cadastro />}/>
+                    <Route path="/buscar" element={<Buscar produtos={produtos} />}/>
                 </Routes>
                 <Footer />
             </div>

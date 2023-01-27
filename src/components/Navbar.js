@@ -14,15 +14,17 @@ import {
   FormGroup,
   Modal,
   ModalBody,
-  ModalHeader
+  ModalHeader, 
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu
 } from 'reactstrap';
 
 function NavBar(args) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [isModalLoguinOpen, setIsModalLoguinOpen] = useState(false)
-
-  const [isModalCadastroOpen, setIsModalCadastroOpen] = useState(false)
 
   const [dadosLoguin, setDadosLoguin] = useState({
     username: "",
@@ -36,9 +38,6 @@ function NavBar(args) {
     setIsModalLoguinOpen(!isModalLoguinOpen)  
   }
 
-  const modalCadastrar = () => {
-    setIsModalCadastroOpen(!isModalCadastroOpen)
-  }
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -65,9 +64,26 @@ function NavBar(args) {
             <NavItem>
               <NavLink className="nav-link" to="/">Página Inicial</NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink className="nav-link" to="/produtos" >Produtos</NavLink>
-            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Produtos
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>Roupas</DropdownItem>
+                <DropdownItem>Calçados</DropdownItem>
+                <DropdownItem>Acessórios</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>Camisetas</DropdownItem>
+                <DropdownItem>Tênis</DropdownItem>
+                <DropdownItem>Bonés</DropdownItem>
+                <DropdownItem>Bermudas</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>Masculino</DropdownItem>
+                <DropdownItem>Feminino</DropdownItem>
+                <DropdownItem divider />
+                <NavLink className="link-navbar" to="/buscar"><DropdownItem>Buscar</DropdownItem></NavLink>
+              </DropdownMenu>
+            </UncontrolledDropdown>
             <NavItem>
               <NavLink className="nav-link" to="/contato">Contato</NavLink>
             </NavItem>
@@ -77,9 +93,11 @@ function NavBar(args) {
           </Nav>
           <Nav className="ms-auto" navbar>
             <NavItem>
-              <Button className='bg-dark' outline onClick={modalCadastrar}>
-                Cadastrar
-              </Button>
+              <NavLink className="nav-link m-0 p-0" to="/cadastro">
+                <Button className='bg-dark' outline>
+                  Cadastrar
+                </Button>
+              </NavLink>
             </NavItem>
             <NavItem className='mx-2'>
               <Button className='bg-dark' outline onClick={modalLoguin}>

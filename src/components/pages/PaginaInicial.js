@@ -23,7 +23,7 @@ const PaginaInicial = ({produtos}) => {
 
 
 
-    const menu = produtos.map((produto) => {
+    const produtoRender = produtos.map((produto) => {
         return (
             <div key={produto.id} className="col-12 col-md-3 m-3">
                 <RenderProdutoItem produto={produto}/>
@@ -34,7 +34,7 @@ const PaginaInicial = ({produtos}) => {
     return (
         <div>
             <h1 className='mx-5'>Destaques</h1>
-            <div className="row offset-1">{menu}</div>
+            <div className="row offset-1">{produtoRender}</div>
             
 
         </div>
