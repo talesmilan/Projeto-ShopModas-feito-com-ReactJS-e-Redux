@@ -12,7 +12,7 @@ const RenderComentarios = ({comentarios, produtoId}) => {
                     if (comentario.produtoId == produtoId) {
                         existeComentarios = true
                         return (
-                            <Card className="offset-1 col-10 p-3">
+                            <Card key={comentario.id} className="offset-1 col-10 p-3">
                                 <p>{comentario.comentario}</p>
                                 <p>-- {comentario.autor}, {comentario.data.substr(8, 2)}-{comentario.data.substr(5, 2)}-{comentario.data.substr(0, 4)}</p>
                             </Card>)

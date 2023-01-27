@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {NavLink} from 'react-router-dom'
 import {
   Collapse,
@@ -54,10 +54,12 @@ function NavBar(args) {
     setDadosLoguin({...dadosLoguin, [name]: value})
 }
 
+
+
   return (
     <div>
       <Navbar {...args} color="dark" dark={true} expand="md">
-        <NavbarBrand><NavLink className="nav-link" to="/" >ShopModas</NavLink></NavbarBrand>
+        <NavbarBrand href="/" >ShopModas</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="me-auto" navbar>
@@ -68,7 +70,7 @@ function NavBar(args) {
               <DropdownToggle nav caret>
                 Produtos
               </DropdownToggle>
-              <DropdownMenu right>
+              <DropdownMenu>
                 <NavLink className="link-navbar" to="produtos/roupas">
                   <DropdownItem>Roupas</DropdownItem>
                 </NavLink>
@@ -148,7 +150,7 @@ function NavBar(args) {
                 <Label check>
                 <Input type="checkbox" name="remember"
                     onChange={handleOnChange}
-                    value={dadosLoguin.remember} />
+                    checked={dadosLoguin.remember} />
                   Se lembrar de mim?
                 </Label>
               </FormGroup>
