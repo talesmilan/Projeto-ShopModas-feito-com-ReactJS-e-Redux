@@ -1,6 +1,6 @@
 import Navbar from './Navbar'
 import Jumbotron from './Jumbotron'
-import { Routes, Route} from 'react-router-dom'
+import { Routes, Route, useParams} from 'react-router-dom'
 import PaginaInicial from './pages/PaginaInicial'
 import Produtos from './pages/Produtos'
 import Sobre from './pages/Sobre'
@@ -16,7 +16,7 @@ const Main = (props) => {
 
     const [produtos, setProdutos] = useState([])
 
-    useEffect(() => {
+    const fetchProduto = () => {
         fetch(baseUrl + 'produtos')
         .then(response => {
             if (response.ok) {
@@ -34,11 +34,11 @@ const Main = (props) => {
         .then(response => response.json())
         .then(response => setProdutos(response))
         .catch(error => console.log(error.message));
-    }, [])
+    }
 
-        const RenderProdutoId = ({match}) => {
-            return (<div>Teste {console.log(match)} </div>)
-        }
+    useEffect(() => {
+        fetchProduto()
+    }, [])
 
         return(
             <div>

@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import {Button, Modal, Form, ModalBody, FormGroup, ModalHeader, Label, Input} from 'reactstrap'
+import { baseUrl } from '../baseUrl'
+import {redirect, useHistory} from 'react-router-dom'
+import {Card} from 'reactstrap'
 
 
-
-const CommentButton = ({produtoId}) => {
+const CommentButton = ({produtoId, fetchComentario}) => {
 
     const [dados, setDados] = useState({
         isModalOpen: false,
@@ -33,13 +35,55 @@ const CommentButton = ({produtoId}) => {
         values.preventDefault()
         toggleModal()
         console.log(dados)
-      }
+        
+    const newComment = {
+        produtoId: produtoId,
+        nota: dados.rating,
+        autor: dados.name,
+        comentario: dados.comment
+    }
+
+    newComment.data = new Date().toISOString()
+
+    fetch(baseUrl + 'comentarios', {
+        method: 'POST',
+        body: JSON.stringify(newComment),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) {
+                return response
+            } else {
+                var error = new Error('Error' + response.status + ": " + response.statusText)
+                error.response = response
+                throw error
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message)
+            throw errmess
+        })
+        .then(response => response.json())
+        .then(response => {
+            alert("Comentario adicionado com sucesso")
+            fetchComentario()
+            
+        })
+        .catch(error => {console.log('Post comments ', error.message)
+            alert("Seu comentário não pode ser postado.\nErro: " + error.message)})
+      
+      
+      
+        }
 
 
 
         return (
             <>
-                <div className='mt-5'>
+                <div className='offset-1 mt-5'>
                     <Button onClick={toggleModal}><span className='fa fa-pencil fa-lg mr-1'></span> Comentar</Button>
                 </div>
                 <Modal isOpen={dados.isModalOpen} toggle={toggleModal} >
