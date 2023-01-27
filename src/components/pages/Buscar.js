@@ -1,24 +1,6 @@
-import { Button, Input, Card, CardHeader, CardImg, CardTitle } from "reactstrap"
+import { Button, Input} from "reactstrap"
 import { useState } from "react"
-import { baseUrl } from "../../baseUrl"
-import { Link } from "react-router-dom"
-
-function RenderProdutoItem({produto}) {
-
-        return (
-            <Card>
-                <Link className="marcador-link" to={`/produto/${produto.id}`}>
-                    <CardHeader>
-                        <CardTitle>{produto.nome} - <span>R${produto.preco}</span></CardTitle>         
-                    </CardHeader>
-                    
-                    <CardImg height="200px" src={baseUrl + produto.imagem} alt={produto.nome} />
-                    
-                </Link>
-            </Card>
-        )
-    
-}
+import RenderProdutoItem from '../RenderProdutoItem'
 
 
 const Buscar = ({produtos}) => {
@@ -46,7 +28,7 @@ const [busca , setBusca] = useState("")
 
             return (
                 <div key={produto.id} className="col-12 col-md-3 m-3">
-                    <RenderProdutoItem produto={produto} buscar={busca} />
+                    <RenderProdutoItem produto={produto} />
                 </div>
             )
         }

@@ -10,7 +10,13 @@ import RenderProduto from './pages/RenderProduto'
 import Footer from './Footer'
 import Cadastro from './pages/Cadastro'
 import Buscar from './pages/Buscar'
-
+import Roupas from './pages/Roupas'
+import Acessorios from './pages/Acessorios'
+import Calcados from './pages/Calcados'
+import Camisetas from './pages/Camisetas'
+import Tenis from './pages/Tenis'
+import Bones from './pages/Bones'
+import Bermudas from './pages/Bermudas'
 
 const Main = (props) => {
 
@@ -52,6 +58,13 @@ const Main = (props) => {
                     <Route path="/sobre" element={<Sobre />}/>
                     <Route path="/cadastro" element={<Cadastro />}/>
                     <Route path="/buscar" element={<Buscar produtos={produtos} />}/>
+                    <Route path="/produtos/roupas" element={<Roupas produtos={produtos} />}/>
+                    <Route path="/produtos/calcados" element={<Calcados produtos={produtos} />}/>
+                    <Route path="/produtos/acessorios" element={<Acessorios produtos={produtos} />}/>
+                    <Route path="/produtos/bermudas" element={<Bermudas produtos={produtos} />}/>
+                    <Route path="/produtos/camisetas" element={<Camisetas produtos={produtos} />}/>
+                    <Route path="/produtos/bones" element={<Bones produtos={produtos} />}/>
+                    <Route path="/produtos/tenis" element={<Tenis produtos={produtos} />}/>
                 </Routes>
                 <Footer />
             </div>

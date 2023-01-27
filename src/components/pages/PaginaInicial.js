@@ -1,21 +1,4 @@
-import {Card, CardHeader, CardImg, CardText, CardTitle, CardImgOverlay, Breadcrumb, BreadcrumbItem} from 'reactstrap' 
-import {Link} from 'react-router-dom'
-import { baseUrl } from '../../baseUrl'
-
-function RenderProdutoItem({produto}) {
-    return (
-        <Card>
-            <Link className="marcador-link" to={`/produto/${produto.id}`}>
-                <CardHeader>
-                    <CardTitle>{produto.nome} - <span>R${produto.preco}</span></CardTitle>         
-                </CardHeader>
-                
-                <CardImg height="200px" src={baseUrl + produto.imagem} alt={produto.nome} />
-                
-            </Link>
-        </Card>
-    )
-}
+import RenderProdutoItem from '../RenderProdutoItem';
 
 
 

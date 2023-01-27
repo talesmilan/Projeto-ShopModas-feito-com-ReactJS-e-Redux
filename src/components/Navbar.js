@@ -69,19 +69,35 @@ function NavBar(args) {
                 Produtos
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Roupas</DropdownItem>
-                <DropdownItem>Calçados</DropdownItem>
-                <DropdownItem>Acessórios</DropdownItem>
+                <NavLink className="link-navbar" to="produtos/roupas">
+                  <DropdownItem>Roupas</DropdownItem>
+                </NavLink>
+                <NavLink className="link-navbar" to="produtos/calcados">
+                  <DropdownItem>Calçados</DropdownItem>
+                </NavLink>
+                <NavLink className="link-navbar" to="produtos/acessorios">
+                  <DropdownItem>Acessórios</DropdownItem>
+                </NavLink>
                 <DropdownItem divider />
-                <DropdownItem>Camisetas</DropdownItem>
-                <DropdownItem>Tênis</DropdownItem>
-                <DropdownItem>Bonés</DropdownItem>
-                <DropdownItem>Bermudas</DropdownItem>
+                <NavLink className="link-navbar" to="produtos/camisetas">
+                  <DropdownItem>Camisetas</DropdownItem>
+                </NavLink>
+                <NavLink className="link-navbar" to="produtos/tenis">
+                  <DropdownItem>Tênis</DropdownItem>
+                </NavLink>
+                <NavLink className="link-navbar" to="produtos/bones">
+                  <DropdownItem>Bonés</DropdownItem>
+                </NavLink>
+                <NavLink className="link-navbar" to="produtos/bermudas">
+                  <DropdownItem>Bermudas</DropdownItem>
+                </NavLink>
                 <DropdownItem divider />
                 <DropdownItem>Masculino</DropdownItem>
                 <DropdownItem>Feminino</DropdownItem>
                 <DropdownItem divider />
-                <NavLink className="link-navbar" to="/buscar"><DropdownItem>Buscar</DropdownItem></NavLink>
+                <NavLink className="link-navbar" to="/buscar">
+                  <DropdownItem>Buscar</DropdownItem>
+                </NavLink>
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>
