@@ -17,6 +17,8 @@ import Camisetas from './pages/Camisetas'
 import Tenis from './pages/Tenis'
 import Bones from './pages/Bones'
 import Bermudas from './pages/Bermudas'
+import Feminino from './pages/Feminino'
+import Masculino from './pages/Masculino'
 
 const Main = (props) => {
 
@@ -65,6 +67,8 @@ const Main = (props) => {
                     <Route path="/produtos/camisetas" element={<Camisetas produtos={produtos} />}/>
                     <Route path="/produtos/bones" element={<Bones produtos={produtos} />}/>
                     <Route path="/produtos/tenis" element={<Tenis produtos={produtos} />}/>
+                    <Route path="/produtos/feminino" element={<Feminino produtos={produtos} />}/>
+                    <Route path="/produtos/masculino" element={<Masculino produtos={produtos} />}/>
                 </Routes>
                 <Footer />
             </div>

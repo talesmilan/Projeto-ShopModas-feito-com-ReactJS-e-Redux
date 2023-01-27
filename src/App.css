@@ -28,3 +28,13 @@
 .inputBuscar {
   float: left;
 }
+.texto-comentario {
+  font-size: 20px;
+}
+.sobreTexto {
+  float: left;
+}
+.sobreCartao {
+  float: right;
+}
+

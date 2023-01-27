@@ -92,8 +92,12 @@ function NavBar(args) {
                   <DropdownItem>Bermudas</DropdownItem>
                 </NavLink>
                 <DropdownItem divider />
-                <DropdownItem>Masculino</DropdownItem>
-                <DropdownItem>Feminino</DropdownItem>
+                <NavLink className="link-navbar" to="produtos/masculino">
+                  <DropdownItem>Masculino</DropdownItem>
+                </NavLink>
+                <NavLink className="link-navbar" to="produtos/feminino">
+                  <DropdownItem>Feminino</DropdownItem>
+                </NavLink>
                 <DropdownItem divider />
                 <NavLink className="link-navbar" to="/buscar">
                   <DropdownItem>Buscar</DropdownItem>

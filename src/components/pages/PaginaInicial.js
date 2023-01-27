@@ -7,11 +7,15 @@ const PaginaInicial = ({produtos}) => {
 
 
     const produtoRender = produtos.map((produto) => {
-        return (
-            <div key={produto.id} className="col-12 col-md-3 m-3">
-                <RenderProdutoItem produto={produto}/>
-            </div>
-        )
+
+        if (produto.destaque) {
+            return (
+                <div key={produto.id} className="col-12 col-md-3 m-3">
+                    <RenderProdutoItem produto={produto}/>
+                </div>
+            )
+        }
+
     });
 
     return (
