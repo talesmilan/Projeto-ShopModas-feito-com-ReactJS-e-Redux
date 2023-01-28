@@ -20,17 +20,15 @@ import {
   DropdownToggle,
   DropdownMenu
 } from 'reactstrap';
+import MensagemErros from './MensagemErros'
+
 
 function NavBar(args) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [isModalLoguinOpen, setIsModalLoguinOpen] = useState(false)
 
-  const [dadosLoguin, setDadosLoguin] = useState({
-    username: "",
-    password: "",
-    remember: false
-  })
+  const [erros, setErros] = useState([])
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -41,19 +39,28 @@ function NavBar(args) {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    alert(`Usuário: ${dadosLoguin.username}\nSenha: ${dadosLoguin.password}\nSe lembrar de mim? ${dadosLoguin.remember}`)
+
+    const user = document.querySelector('#username').value
+
+    const senha = document.querySelector("#password").value
+
+    const lembrar = document.querySelector("#remember").checked
+
+    let error = []
+    if (user.length === 0) {
+      error.push("Você precisa prencher o usuário.")
+    }
+    if (senha.length === 0) {
+      error.push("Você precisa prencher a senha.")
+    }
+
+    setErros(error)
+    if (error.length === 0) {
+      alert(`Usuário: ${user}\nSenha: ${senha}\nSe lembrar de mim? ${lembrar}`)
+      modalLoguin()
+    }
 
   }
-
-  const handleOnChange = (e) => {
-
-    const name = e.target.name
-    const target = e.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-
-    setDadosLoguin({...dadosLoguin, [name]: value})
-}
-
 
 
   return (
@@ -133,24 +140,19 @@ function NavBar(args) {
       <Modal isOpen={isModalLoguinOpen} toggle={modalLoguin} >
         <ModalHeader toggle={modalLoguin}>Login</ModalHeader>
           <ModalBody>
+            <MensagemErros erros={erros} />
             <Form onSubmit={handleLogin}>
               <FormGroup>
                 <Label htmlFor="username">Nome do usuário</Label>
-                <Input type="text" id="username" name="username"
-                    onChange={handleOnChange}
-                    value={dadosLoguin.username} />
+                <Input type="text" id="username" name="username" required />
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="password">Senha</Label>
-                <Input type="password" id="password" name="password"
-                    onChange={handleOnChange}
-                    value={dadosLoguin.password} />
+                <Input type="password" id="password" name="password" required/>
               </FormGroup>
               <FormGroup check>
                 <Label check>
-                <Input type="checkbox" name="remember"
-                    onChange={handleOnChange}
-                    checked={dadosLoguin.remember} />
+                <Input type="checkbox" name="remember" id="remember" />
                   Se lembrar de mim?
                 </Label>
               </FormGroup>
