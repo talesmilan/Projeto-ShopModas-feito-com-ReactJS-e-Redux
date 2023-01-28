@@ -3,6 +3,7 @@ import { useState } from 'react';
 import MensagemErros from '../MensagemErros';
 import ValidaCPF from '../ValidaCPF';
 
+
 const Cadastro = () => {
 
 
@@ -21,7 +22,7 @@ const Cadastro = () => {
 
       })
     
-      const [ erros, setErros ] = useState([])
+    const [ erros, setErros ] = useState([])
 
       const handleCadastro = (e) => {
         e.preventDefault()
