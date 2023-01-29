@@ -40,8 +40,8 @@ const RenderProduto = ({produtos}) => {
             <div>
                 <h1 className="mx-5">{produtos[params.produtoId].nome}</h1>
                 <div className="row">
-                    <div className="offset-1 col-12 col-sm-5 my-5">
-                        <img height="350px" src={baseUrl + produtos[params.produtoId].imagem} alt={produtos[params.produtoId].nome} />
+                    <div className="offset-sm-1 col-12 col-sm-5 my-5 text-center">
+                        <img width="100%" src={baseUrl + produtos[params.produtoId].imagem} alt={produtos[params.produtoId].nome} />
                     </div>
                     <div className="col-12 col-sm-4 my-5">
                         <h1>Preço: R${produtos[params.produtoId].preco}</h1>

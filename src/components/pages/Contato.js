@@ -99,7 +99,7 @@ const Contato = () => {
     return (
         <div>
             <h1 className="mx-5">Entre em Contato com a Gente</h1>
-            <div className='offset-2 col-8 mt-5 border p-5 rounded border-dark cadastro'> 
+            <div className='offset-lg-2 col-lg-8 col-12 mt-5 border p-5 rounded border-dark cadastro'> 
                 <MensagemErros erros={erros} />
                 <Form onSubmit={handleContato}>
                     <FormGroup>

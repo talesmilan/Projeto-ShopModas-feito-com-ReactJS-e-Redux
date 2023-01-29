@@ -89,8 +89,8 @@ const CommentButton = ({produtoId, fetchComentario}) => {
 
         return (
             <>
-                <div className='offset-1 mt-5'>
-                    <Button onClick={toggleModal}><span className='fa fa-pencil fa-lg mr-1'></span> Comentar</Button>
+                <div className='offset-lg-1 mt-5'>
+                    <Button className='mx-5 mx-lg-0' onClick={toggleModal}><span className='fa fa-pencil fa-lg mr-1'></span> Comentar</Button>
                 </div>
                 <Modal isOpen={dados.isModalOpen} toggle={toggleModal} >
                     <ModalHeader toggle={toggleModal}>Escreva um comentário</ModalHeader>
@@ -99,7 +99,7 @@ const CommentButton = ({produtoId, fetchComentario}) => {
                         <Form onSubmit={handleComment}>
                             <FormGroup>
                                 <Label htmlFor="rating">Nota</Label>
-                                <Input className='col-12' type="select" name="rating" id="rating">
+                                <Input className='col-10' type="select" name="rating" id="rating">
                                     <option disabled value="" >Selecione uma opção</option>
                                     <option>1</option>
                                     <option>2</option>

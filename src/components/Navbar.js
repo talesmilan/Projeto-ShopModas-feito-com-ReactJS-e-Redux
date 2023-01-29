@@ -121,14 +121,14 @@ function NavBar(args) {
             </NavItem>
           </Nav>
           <Nav className="ms-auto" navbar>
-            <NavItem>
+            <NavItem className='m-2'>
               <NavLink className="nav-link m-0 p-0" to="/cadastro">
                 <Button className='bg-dark' outline>
                   Cadastrar
                 </Button>
               </NavLink>
             </NavItem>
-            <NavItem className='mx-2'>
+            <NavItem className='m-2'>
               <Button className='bg-dark' outline onClick={modalLoguin}>
                 Login
               </Button>

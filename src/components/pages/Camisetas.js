@@ -11,7 +11,7 @@ const Camisetas = ({produtos}) => {
         if (produto.tipo === "camiseta" ) {
 
             return (
-                <div key={produto.id} className="col-12 col-md-3 m-3">
+                <div key={produto.id} className="col-10 col-md-3 m-3">
                     <RenderProdutoItem produto={produto}/>
                 </div>
             )
