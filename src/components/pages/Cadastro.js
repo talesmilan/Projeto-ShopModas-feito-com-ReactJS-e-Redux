@@ -13,6 +13,7 @@ const Cadastro = () => {
         cpf: "",
         usuario: "",
         senha: "",
+        password: "",
         estado: "",
         cidade: "",
         bairro: "",
@@ -29,7 +30,7 @@ const Cadastro = () => {
 
         const error = []
 
-        if (dadosCadastro.nome === "" || dadosCadastro.email === "" || dadosCadastro.cpf === "" || dadosCadastro.usuario === "" || dadosCadastro.senha === "" || dadosCadastro.estado === "" || dadosCadastro.cidade === "" || dadosCadastro.bairro === "" || dadosCadastro.rua === "" || dadosCadastro.numero === "") {
+        if (dadosCadastro.nome === "" || dadosCadastro.email === "" || dadosCadastro.cpf === "" || dadosCadastro.usuario === "" || dadosCadastro.senha === "" || dadosCadastro.estado === "" || dadosCadastro.cidade === "" || dadosCadastro.bairro === "" || dadosCadastro.rua === "" || dadosCadastro.numero === "" || dadosCadastro.password === "") {
             error.push("Todos os campos devem ser preenchidos.")
         }
         if (dadosCadastro.nome.length !== 0 && (dadosCadastro.nome.length < 5 || dadosCadastro.nome.length > 40)) {
@@ -53,6 +54,9 @@ const Cadastro = () => {
         }
         if (dadosCadastro.senha.length !== 0 && (dadosCadastro.senha.length < 6 || dadosCadastro.senha.length > 10)) {
             error.push('A senha deve ter entre 6 a 10 digitos.')
+        }
+        if (dadosCadastro.senha.length !== 0 && dadosCadastro.senha !== dadosCadastro.password) {
+            error.push('Você deve digitar a senha que você quer criar duas vezes corretamente.')
         }
 
         setErros(error)
@@ -104,6 +108,10 @@ const Cadastro = () => {
                     <FormGroup>
                         <Label for="senha">Crie uma senha</Label>
                         <Input type="password" name="senha" id="senha" placeholder="Crie uma senha de 6 a 10 digitos" onChange={handleOnChange} value={dadosCadastro.senha} required />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="senha">Confirme sua senha</Label>
+                        <Input type="password" name="password" id="password" placeholder="Digite novamente sua senha" onChange={handleOnChange} value={dadosCadastro.password} required />
                     </FormGroup>
                     <FormGroup>
                         <Label for="estado">Estado</Label>
