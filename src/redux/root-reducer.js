@@ -4,6 +4,8 @@ import produtosReducer from "./produtos";
 
 import comentariosReducer from "./comentarios"
 
-const rootReducer = combineReducers({produtosReducer, comentariosReducer})
+import carrinhoReducer from "./carrinho"
+
+const rootReducer = combineReducers({produtosReducer, comentariosReducer, carrinhoReducer})
 
 export default rootReducer

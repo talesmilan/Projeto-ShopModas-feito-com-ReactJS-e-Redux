@@ -18,18 +18,16 @@ import Bones from './pages/Bones'
 import Bermudas from './pages/Bermudas'
 import Feminino from './pages/Feminino'
 import Masculino from './pages/Masculino'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addProduto } from '../redux/produtos'
 import { baseUrl } from '../baseUrl'
+import Carrinho from './pages/Carrinho'
 
 const Main = (props) => {
 
 
-    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
 
     const dispatch = useDispatch()
-
-    console.log(produtos)
 
     useEffect(() => {
 
@@ -64,6 +62,7 @@ const Main = (props) => {
                     <Route path="/contato" element={ <Contato />}/> 
                     <Route path="/sobre" element={<Sobre />}/>
                     <Route path="/cadastro" element={<Cadastro />}/>
+                    <Route path="/carrinho" element={<Carrinho />}/>
                     <Route path="/buscar" element={<Buscar/>}/>
                     <Route path="/produtos/roupas" element={<Roupas/>}/>
                     <Route path="/produtos/calcados" element={<Calcados/>}/>

@@ -21,14 +21,22 @@ import {
   DropdownMenu
 } from 'reactstrap';
 import MensagemErros from './MensagemErros'
-
+import {useSelector} from 'react-redux'
 
 function NavBar(args) {
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [isModalLoguinOpen, setIsModalLoguinOpen] = useState(false)
 
   const [erros, setErros] = useState([])
+
+  const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
+
+  let total = 0
+  carrinho.map(produto => {
+    total += produto.quantity
+  })
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -121,17 +129,13 @@ function NavBar(args) {
             </NavItem>
           </Nav>
           <Nav className="ms-auto" navbar>
-            <NavItem className='m-2'>
-              <NavLink className="nav-link m-0 p-0" to="/cadastro">
-                <Button className='bg-dark' outline>
-                  Cadastrar
-                </Button>
+            <NavItem>
+              <NavLink className="nav-link" to="/carrinho">
+                Carrinho ({total})
               </NavLink>
             </NavItem>
-            <NavItem className='m-2'>
-              <Button className='bg-dark' outline onClick={modalLoguin}>
-                Login
-              </Button>
+            <NavItem>
+              <div className="nav-link botao-login"  outline onClick={modalLoguin}>Login/Cadastrar</div>
             </NavItem>
           </Nav>
         </Collapse>
@@ -156,7 +160,10 @@ function NavBar(args) {
                   Se lembrar de mim?
                 </Label>
               </FormGroup>
-              <Button className='mt-3' type="submit" value="submit" color='primary'>Login</Button>
+              <FormGroup>
+                <p className="mt-3">Ainda não tem um cadastro? Crie um <NavLink onClick={modalLoguin} to="/cadastro">clicando aqui.</NavLink></p>
+              </FormGroup>
+              <Button className='mt-2' type="submit" value="submit" color='primary'>Login</Button>
             </Form>
           </ModalBody>
         </Modal>

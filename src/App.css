@@ -37,4 +37,7 @@
 .sobreCartao {
   float: right;
 }
+.botao-login {
+  cursor: pointer;
+}
 
