@@ -1,13 +1,12 @@
 import RenderProdutoItem from "../RenderProdutoItem";
+import { useSelector } from "react-redux";
 
+const Masculino = () => {
 
-const Masculino = ({produtos}) => {
-
+    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
 
     const renderProdutos = produtos.map((produto) => {
-
-
-    
+   
         if (produto.genero === "masculina" ) {
 
             return (

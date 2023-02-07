@@ -1,11 +1,13 @@
 import { Button, Input} from "reactstrap"
 import { useState } from "react"
 import RenderProdutoItem from '../RenderProdutoItem'
+import { useSelector } from "react-redux"
 
+const Buscar = () => {
 
-const Buscar = ({produtos}) => {
+    const [busca , setBusca] = useState("")
 
-const [busca , setBusca] = useState("")
+    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
 
     const handleOnChange = (e) => {
         const value = e.target.value

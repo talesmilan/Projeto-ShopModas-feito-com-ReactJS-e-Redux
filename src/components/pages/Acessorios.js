@@ -1,8 +1,9 @@
 import RenderProdutoItem from "../RenderProdutoItem";
+import { useSelector } from "react-redux";
 
+const Acessorios = () => {
 
-const Acessorios = ({produtos}) => {
-
+    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
 
     const renderProdutos = produtos.map((produto) => {
 

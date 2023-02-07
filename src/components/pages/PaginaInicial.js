@@ -1,11 +1,11 @@
 import RenderProdutoItem from '../RenderProdutoItem';
 
+import { useSelector } from 'react-redux';
 
+const PaginaInicial = () => {
 
-const PaginaInicial = ({produtos}) => {
-
-
-
+    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
+    
     const produtoRender = produtos.map((produto) => {
 
         if (produto.destaque) {

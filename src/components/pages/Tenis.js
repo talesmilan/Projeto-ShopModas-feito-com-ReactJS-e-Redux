@@ -1,12 +1,11 @@
 import RenderProdutoItem from "../RenderProdutoItem";
+import { useSelector } from "react-redux";
 
+const Tenis = () => {
 
-const Tenis = ({produtos}) => {
-
+    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
 
     const renderProdutos = produtos.map((produto) => {
-
-
     
         if (produto.tipo === "tenis" ) {
 

@@ -1,8 +1,11 @@
 import { Card } from "reactstrap"
+import { useSelector } from "react-redux"
 
-const RenderComentarios = ({comentarios, produtoId}) => {
+const RenderComentarios = ({produtoId}) => {
 
     let existeComentarios = false
+
+    const {comentarios} = useSelector(rootReducer => rootReducer.comentariosReducer)
 
     return (
         <div>

@@ -2,9 +2,10 @@ import React, {useState} from 'react'
 import {Button, Modal, Form, ModalBody, FormGroup, ModalHeader, Label, Input} from 'reactstrap'
 import { baseUrl } from '../baseUrl'
 import MensagemErros from './MensagemErros'
+import { useSelector, useDispatch } from 'react-redux'
+import { addComentarios } from '../redux/comentarios'
 
-
-const CommentButton = ({produtoId, fetchComentario}) => {
+const CommentButton = ({produtoId}) => {
 
     const [dados, setDados] = useState({
         isModalOpen: false
@@ -12,6 +13,9 @@ const CommentButton = ({produtoId, fetchComentario}) => {
 
     const [ erros, setErros] = useState([])
 
+    const dispatch = useDispatch()
+
+    const {comentarios} = useSelector(rootReducer => rootReducer.comentariosReducer)
 
     const toggleModal = () => {
         setDados({
@@ -75,7 +79,8 @@ const CommentButton = ({produtoId, fetchComentario}) => {
             .then(response => response.json())
             .then(response => {
                 alert("Comentario adicionado com sucesso")
-                fetchComentario()
+                dispatch(addComentarios([...comentarios, response]))
+
                 
             })
             .catch(error => {console.log('Post comments ', error.message)
