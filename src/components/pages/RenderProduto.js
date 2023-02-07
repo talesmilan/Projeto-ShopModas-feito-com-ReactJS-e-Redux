@@ -1,17 +1,24 @@
 import { baseUrl } from '../../baseUrl'
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import CommentButton from "../CommentButton"
 import RenderComentarios from '../RenderComentarios'
 import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { addComentarios } from '../../redux/comentarios'
 
 
-const RenderProduto = ({produtos}) => {
+const RenderProduto = () => {
 
     const params = useParams()
 
-    const [comentarios, setComentarios] = useState([])
+    const {comentarios} = useSelector(rootReducer => rootReducer.comentariosReducer)
 
-    const fetchComentario = () => {
+    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
+
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
         fetch(baseUrl + 'comentarios')
         .then(response => {
             if (response.ok) {
@@ -27,12 +34,8 @@ const RenderProduto = ({produtos}) => {
             throw errmess
         })
         .then(response => response.json())
-        .then(response => setComentarios(response))
+        .then(response => dispatch(addComentarios(response)))
         .catch(error => console.log(error.message));
-    }
-
-    useEffect(() => {
-        fetchComentario()
     }, [])
 
     if (produtos.length > 0) {
@@ -51,8 +54,8 @@ const RenderProduto = ({produtos}) => {
                     </div>
                 </div>
                 <div className="row">
-                    <RenderComentarios comentarios={comentarios} produtoId={params.produtoId} />
-                    <CommentButton produtoId={params.produtoId} fetchComentario={fetchComentario} />
+                    <RenderComentarios produtoId={params.produtoId} />
+                    <CommentButton produtoId={params.produtoId} />
                 </div>
     
             </div>

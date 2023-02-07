@@ -4,8 +4,7 @@ import { Routes, Route} from 'react-router-dom'
 import PaginaInicial from './pages/PaginaInicial'
 import Sobre from './pages/Sobre'
 import Contato from './pages/Contato'
-import { useEffect, useState } from 'react'
-import { baseUrl } from '../baseUrl'
+import { useEffect } from 'react'
 import RenderProduto from './pages/RenderProduto'
 import Footer from './Footer'
 import Cadastro from './pages/Cadastro'
@@ -19,12 +18,21 @@ import Bones from './pages/Bones'
 import Bermudas from './pages/Bermudas'
 import Feminino from './pages/Feminino'
 import Masculino from './pages/Masculino'
+import { useSelector, useDispatch } from 'react-redux'
+import { addProduto } from '../redux/produtos'
+import { baseUrl } from '../baseUrl'
 
 const Main = (props) => {
 
-    const [produtos, setProdutos] = useState([])
 
-    const fetchProduto = () => {
+    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
+
+    const dispatch = useDispatch()
+
+    console.log(produtos)
+
+    useEffect(() => {
+
         fetch(baseUrl + 'produtos')
         .then(response => {
             if (response.ok) {
@@ -40,12 +48,9 @@ const Main = (props) => {
             throw errmess
         })
         .then(response => response.json())
-        .then(response => setProdutos(response))
+        .then(response => dispatch(addProduto(response)))
         .catch(error => console.log(error.message));
-    }
 
-    useEffect(() => {
-        fetchProduto()
     }, [])
 
         return(
@@ -53,22 +58,22 @@ const Main = (props) => {
                 <Navbar />
                 <Jumbotron />
                 <Routes>
-                    <Route path="/" element={<PaginaInicial produtos={produtos} />}/>
+                    <Route path="/" element={<PaginaInicial/>}/>
                     <Route path="/produto/:produtoId" 
-                        element={<RenderProduto produtos={produtos} />} />    
+                        element={<RenderProduto/>} />    
                     <Route path="/contato" element={ <Contato />}/> 
                     <Route path="/sobre" element={<Sobre />}/>
                     <Route path="/cadastro" element={<Cadastro />}/>
-                    <Route path="/buscar" element={<Buscar produtos={produtos} />}/>
-                    <Route path="/produtos/roupas" element={<Roupas produtos={produtos} />}/>
-                    <Route path="/produtos/calcados" element={<Calcados produtos={produtos} />}/>
-                    <Route path="/produtos/acessorios" element={<Acessorios produtos={produtos} />}/>
-                    <Route path="/produtos/bermudas" element={<Bermudas produtos={produtos} />}/>
-                    <Route path="/produtos/camisetas" element={<Camisetas produtos={produtos} />}/>
-                    <Route path="/produtos/bones" element={<Bones produtos={produtos} />}/>
-                    <Route path="/produtos/tenis" element={<Tenis produtos={produtos} />}/>
-                    <Route path="/produtos/feminino" element={<Feminino produtos={produtos} />}/>
-                    <Route path="/produtos/masculino" element={<Masculino produtos={produtos} />}/>
+                    <Route path="/buscar" element={<Buscar/>}/>
+                    <Route path="/produtos/roupas" element={<Roupas/>}/>
+                    <Route path="/produtos/calcados" element={<Calcados/>}/>
+                    <Route path="/produtos/acessorios" element={<Acessorios/>}/>
+                    <Route path="/produtos/bermudas" element={<Bermudas/>}/>
+                    <Route path="/produtos/camisetas" element={<Camisetas/>}/>
+                    <Route path="/produtos/bones" element={<Bones/>}/>
+                    <Route path="/produtos/tenis" element={<Tenis/>}/>
+                    <Route path="/produtos/feminino" element={<Feminino/>}/>
+                    <Route path="/produtos/masculino" element={<Masculino/>}/>
                 </Routes>
                 <Footer />
             </div>
