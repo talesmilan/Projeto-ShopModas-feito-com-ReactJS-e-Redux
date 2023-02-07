@@ -7,6 +7,11 @@ const Carrinho = () => {
 
     const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
 
+    let precoTotal = 0
+    carrinho.map(produto => {
+        precoTotal += Number(produto.preco) * produto.quantity
+    })
+
     const dispatch = useDispatch()
 
     const removeProdutos = (produto) => {
@@ -45,6 +50,7 @@ const Carrinho = () => {
                     </div>
                 </Card>))}
                 <div className='row text-center'>
+                    <p className='lead'>Total: R$ {precoTotal.toFixed(2)}</p>
                     <Button className='offset-3 p-3 col-6' color="success">Comprar Produtos</Button>
                 </div>
     
