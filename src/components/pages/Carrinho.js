@@ -7,11 +7,9 @@ const Carrinho = () => {
 
     const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
 
-    let precoTotal = 0
-    carrinho.map(produto => {
-        precoTotal += Number(produto.preco) * produto.quantity
-    })
+    const precoTotal = carrinho.reduce((acumulador, produto) => { return acumulador += Number(produto.preco) * produto.quantity}, 0)
 
+    console.log(precoTotal)
     const dispatch = useDispatch()
 
     const removeProdutos = (produto) => {

@@ -33,11 +33,8 @@ function NavBar(args) {
 
   const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
 
-  let total = 0
-  carrinho.map(produto => {
-    total += produto.quantity
-  })
-
+ 
+  const total = carrinho.reduce((acumulador, produto) => { return acumulador += produto.quantity}, 0)
   const toggle = () => setIsOpen(!isOpen);
 
   const modalLoguin = () => {
