@@ -17,7 +17,7 @@ const RenderComentarios = ({produtoId}) => {
                         return (
                             <Card key={comentario.id} className="offset-sm-1 col-sm-10 col-12 p-3">
                                 <p>{comentario.comentario}</p>
-                                <p>-- {comentario.autor}, {comentario.data.substr(8, 2)}-{comentario.data.substr(5, 2)}-{comentario.data.substr(0, 4)}</p>
+                                <p>-- {comentario.autor}, {comentario.createdAt.substr(8, 2)}-{comentario.createdAt.substr(5, 2)}-{comentario.createdAt.substr(0, 4)}</p>
                             </Card>)
                     }
                 })}

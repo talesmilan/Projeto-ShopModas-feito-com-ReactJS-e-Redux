@@ -85,6 +85,7 @@ const Cadastro = () => {
             <div className='offset-lg-2 col-12 col-lg-8 mt-5 border p-5 rounded border-dark cadastro'>
                 <MensagemErros erros={erros} /> 
                 <Form onSubmit={handleCadastro}>
+                    <h2 className='mb-3'>Dados Pessoais</h2>
                     <FormGroup>
                         <Label for="nome">Nome Completo</Label>
                         <Input type="text" name="nome" id="nome" placeholder="Digite seu nome completo"
@@ -113,6 +114,7 @@ const Cadastro = () => {
                         <Label for="senha">Confirme sua senha</Label>
                         <Input type="password" name="password" id="password" placeholder="Digite novamente sua senha" onChange={handleOnChange} value={dadosCadastro.password} required />
                     </FormGroup>
+                    <h2 className='my-4'>Endereço</h2>
                     <FormGroup>
                         <Label for="estado">Estado</Label>
                         <Input type="select" name="estado" id="estado"

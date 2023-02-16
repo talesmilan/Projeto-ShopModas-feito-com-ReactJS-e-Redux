@@ -7,7 +7,7 @@ const Masculino = () => {
 
     const renderProdutos = produtos.map((produto) => {
    
-        if (produto.genero === "masculina" ) {
+        if (produto.genero === "masculino" ) {
 
             return (
                 <div key={produto.id} className="col-10 col-md-3 m-3">

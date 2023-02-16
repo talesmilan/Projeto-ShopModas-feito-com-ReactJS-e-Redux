@@ -30,7 +30,6 @@ const Main = (props) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-
         fetch(baseUrl + 'produtos')
         .then(response => {
             if (response.ok) {
@@ -46,7 +45,9 @@ const Main = (props) => {
             throw errmess
         })
         .then(response => response.json())
-        .then(response => dispatch(addProduto(response)))
+        .then(response => {
+            dispatch(addProduto(response))
+        })
         .catch(error => console.log(error.message));
 
     }, [])
