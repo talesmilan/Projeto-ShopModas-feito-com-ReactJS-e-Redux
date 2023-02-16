@@ -2,6 +2,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useState } from 'react';
 import MensagemErros from '../MensagemErros';
 import ValidaCPF from '../ValidaCPF';
+import { baseUrl } from '../../baseUrl';
 
 
 const Cadastro = () => {
@@ -61,14 +62,53 @@ const Cadastro = () => {
 
         setErros(error)
 
-        if (error.length === 0) {
-            alert(`Cadastro realizado com sucesso!\nNome: ${dadosCadastro.nome}\nEmail: ${dadosCadastro.email}\nCPF: ${dadosCadastro.cpf}\nUsuario: ${dadosCadastro.usuario}\nSenha: ${dadosCadastro.senha}\nEstado: ${dadosCadastro.estado}\nCidade: ${dadosCadastro.cidade}\nBairro: ${dadosCadastro.bairro}\nRua: ${dadosCadastro.rua}\nNumero: ${dadosCadastro.numero}\nPromoções: ${dadosCadastro.promocoes}`)
+        if (error.length === 0) {            
+        const novoCadastro = {
+            nome: dadosCadastro.nome,
+            email: dadosCadastro.email,
+            cpf: dadosCadastro.cpf,
+            usuario: dadosCadastro.usuario,
+            senha: dadosCadastro.senha,
+            password: dadosCadastro.password,
+            cidade: dadosCadastro.cidade,
+            estado: dadosCadastro.estado,
+            bairro: dadosCadastro.bairro,
+            rua: dadosCadastro.rua,
+            numero: dadosCadastro.numero,
+            promocoes: dadosCadastro.promocoes
+        }
+    
+        fetch(baseUrl + 'cadastro', {
+            method: 'POST',
+            body: JSON.stringify(novoCadastro),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response
+                } else {
+                    var error = new Error('Error' + response.status + ": " + response.statusText)
+                    error.response = response
+                    throw error
+                }
+            }, 
+            error => {
+                var errmess = new Error(error.message)
+                throw errmess
+            })
+            .then(response => response.json())
+            .then(response => {
+                alert("Cadastro realizado com sucesso")                
+            })
+            .catch(error => {console.log('Post comments ', error.message)
+                alert("Seu cadastro não pode ser realizado.\nErro: " + error.message)})
         } else {
             window.scrollTo(0, 140)
         }
-
-
-    
+   
       }
     
       const handleOnChange = (e) => {

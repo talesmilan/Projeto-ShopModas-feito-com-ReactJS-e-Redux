@@ -21,7 +21,10 @@ import {
   DropdownMenu
 } from 'reactstrap';
 import MensagemErros from './MensagemErros'
-import {useSelector} from 'react-redux'
+import { baseUrl } from '../baseUrl';
+import { useDispatch, useSelector } from 'react-redux'
+import { addUser } from '../redux/login';
+import { removeUser } from '../redux/login';
 
 function NavBar(args) {
 
@@ -33,7 +36,10 @@ function NavBar(args) {
 
   const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
 
- 
+  const dispatch = useDispatch()
+  
+  const {login} = useSelector(rootReducer => rootReducer.loginReducer)
+
   const total = carrinho.reduce((acumulador, produto) => { return acumulador += produto.quantity}, 0)
   const toggle = () => setIsOpen(!isOpen);
 
@@ -41,6 +47,9 @@ function NavBar(args) {
     setIsModalLoguinOpen(!isModalLoguinOpen)  
   }
 
+  const modalSair = () => {
+    dispatch(removeUser())
+  }
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -61,8 +70,38 @@ function NavBar(args) {
 
     setErros(error)
     if (error.length === 0) {
-      alert(`Usuário: ${user}\nSenha: ${senha}\nSe lembrar de mim? ${lembrar}`)
+
+      const login = {usuario: user, senha: senha, lembrar: lembrar}
+
       modalLoguin()
+      fetch(baseUrl + 'login', {
+        method: 'POST',
+        body: JSON.stringify(login),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) {
+                return response
+            } else {
+                var error = new Error('Error' + response.status + ": " + response.statusText)
+                error.response = response
+                throw error
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message)
+            throw errmess
+        })
+        .then(response => response.json())
+        .then(response => {
+            dispatch(addUser(response))
+            alert("Login realizado com sucesso")                
+        })
+        .catch(error => {console.log('Post comments ', error.message)
+            alert("Seu login não pode ser realizado.\nErro: " + error.message)})
     }
 
   }
@@ -131,9 +170,16 @@ function NavBar(args) {
                 Carrinho ({total})
               </NavLink>
             </NavItem>
+            {console.log(login)}
+            {login.usuario === "" ? (
             <NavItem>
               <div className="nav-link botao-login"  outline onClick={modalLoguin}>Login/Cadastrar</div>
             </NavItem>
+            ) : (
+              <NavItem>
+              <div className="nav-link botao-login"  outline onClick={modalSair}>Sair</div>
+            </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>

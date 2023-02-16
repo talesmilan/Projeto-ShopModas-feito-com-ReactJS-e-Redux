@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import CommentButton from "../CommentButton"
 import RenderComentarios from '../RenderComentarios'
 import { useParams } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addComentarios } from '../../redux/comentarios'
 import { addProduto } from '../../redux/carrinho'
 
