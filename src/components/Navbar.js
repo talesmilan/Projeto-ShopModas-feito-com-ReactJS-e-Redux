@@ -49,6 +49,7 @@ function NavBar(args) {
 
   const modalSair = () => {
     dispatch(removeUser())
+    localStorage.setItem('user', JSON.stringify({token: ""}))
   }
 
   const handleLogin = (e) => {
@@ -98,6 +99,7 @@ function NavBar(args) {
         .then(response => response.json())
         .then(response => {
             dispatch(addUser(response))
+            localStorage.setItem('user', JSON.stringify(response))
             alert("Login realizado com sucesso")                
         })
         .catch(error => {console.log('Post comments ', error.message)
@@ -171,7 +173,7 @@ function NavBar(args) {
               </NavLink>
             </NavItem>
             {console.log(login)}
-            {login.usuario === "" ? (
+            {login.token === "" ? (
             <NavItem>
               <div className="nav-link botao-login"  outline onClick={modalLoguin}>Login/Cadastrar</div>
             </NavItem>

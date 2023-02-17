@@ -80,8 +80,6 @@ const CommentButton = ({produtoId}) => {
             .then(response => {
                 alert("Comentario adicionado com sucesso")
                 dispatch(addComentarios([...comentarios, response]))
-
-                
             })
             .catch(error => {console.log('Post comments ', error.message)
                 alert("Seu comentário não pode ser postado.\nErro: " + error.message)})

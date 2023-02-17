@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux'
 import { addProduto } from '../redux/produtos'
 import { baseUrl } from '../baseUrl'
 import Carrinho from './pages/Carrinho'
+import { addUser } from '../redux/login'
 
 const Main = (props) => {
 
@@ -50,6 +51,39 @@ const Main = (props) => {
         })
         .catch(error => console.log(error.message));
 
+        const tokenRecuperado = localStorage.getItem("user");
+        console.log(tokenRecuperado)
+        if(tokenRecuperado != undefined) {
+            if(tokenRecuperado.token != "") {
+                fetch(baseUrl + 'autorizacao', {
+                    method: 'POST',
+                    body: tokenRecuperado,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response
+                        } else {
+                            var error = new Error('Error' + response.status + ": " + response.statusText)
+                            error.response = response
+                            throw error
+                        }
+                    }, 
+                    error => {
+                        var errmess = new Error(error.message)
+                        throw errmess
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        dispatch(addUser(response))
+                    })
+                    .catch(error => {console.log('Post comments ', error.message)})
+            }
+        }
+ 
     }, [])
 
         return(
