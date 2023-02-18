@@ -25,11 +25,7 @@ import Carrinho from './pages/Carrinho'
 import { addUser } from '../redux/login'
 
 const Main = (props) => {
-
-
-
     const dispatch = useDispatch()
-
     useEffect(() => {
         fetch(baseUrl + 'produtos')
         .then(response => {
@@ -50,9 +46,7 @@ const Main = (props) => {
             dispatch(addProduto(response))
         })
         .catch(error => console.log(error.message));
-
         const tokenRecuperado = localStorage.getItem("user");
-        console.log(tokenRecuperado)
         if(tokenRecuperado != undefined) {
             if(tokenRecuperado.token != "") {
                 fetch(baseUrl + 'autorizacao', {
@@ -99,15 +93,15 @@ const Main = (props) => {
                     <Route path="/cadastro" element={<Cadastro />}/>
                     <Route path="/carrinho" element={<Carrinho />}/>
                     <Route path="/buscar" element={<Buscar/>}/>
-                    <Route path="/produtos/roupas" element={<Roupas/>}/>
-                    <Route path="/produtos/calcados" element={<Calcados/>}/>
-                    <Route path="/produtos/acessorios" element={<Acessorios/>}/>
-                    <Route path="/produtos/bermudas" element={<Bermudas/>}/>
-                    <Route path="/produtos/camisetas" element={<Camisetas/>}/>
-                    <Route path="/produtos/bones" element={<Bones/>}/>
-                    <Route path="/produtos/tenis" element={<Tenis/>}/>
-                    <Route path="/produtos/feminino" element={<Feminino/>}/>
-                    <Route path="/produtos/masculino" element={<Masculino/>}/>
+                    <Route path="/produtos/roupas/:page" element={<Roupas/>}/>
+                    <Route path="/produtos/calcados/:page" element={<Calcados/>}/>
+                    <Route path="/produtos/acessorios/:page" element={<Acessorios/>}/>
+                    <Route path="/produtos/bermudas/:page" element={<Bermudas/>}/>
+                    <Route path="/produtos/camisetas/:page" element={<Camisetas/>}/>
+                    <Route path="/produtos/bones/:page" element={<Bones/>}/>
+                    <Route path="/produtos/tenis/:page" element={<Tenis/>}/>
+                    <Route path="/produtos/feminino/:page" element={<Feminino/>}/>
+                    <Route path="/produtos/masculino/:page" element={<Masculino/>}/>
                 </Routes>
                 <Footer />
             </div>

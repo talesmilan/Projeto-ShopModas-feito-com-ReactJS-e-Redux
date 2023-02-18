@@ -1,29 +1,53 @@
 import RenderProdutoItem from "../RenderProdutoItem";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { baseUrl } from "../../baseUrl";
+import { useParams } from "react-router-dom";
+import BotoesPage from "../BotoesPage";
 
 const Roupas = () => {
 
-    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
+    const [produtos, setProdutos] = useState({rows: []})
 
-    const renderProdutos = produtos.map((produto) => {
+    const params = useParams()
 
-    
-        if (produto.tipo !== "bone" && produto.tipo !== "tenis" ) {
+    const page = params.page
 
-            return (
-                <div key={produto.id} className="col-10 col-md-3 m-3">
-                    <RenderProdutoItem produto={produto}/>
-                </div>
-            )
-        }
+    useEffect(() => {
+        fetch(baseUrl + "produtos/roupas/" + page)
+        .then(response => {
+            if (response.ok) {
+                return response
+            } else {
+                var error = new Error('Error' + response.status + ": " + response.statusText)
+                error.response = response
+                throw error
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message)
+            throw errmess
+        })
+        .then(response => response.json())
+        .then(response => {
+            setProdutos(response)
+        })
+        .catch(error => console.log(error.message));
+    }, [page])
 
-    });
+        const renderProdutos = produtos.rows.map((produto) => {
+                return (
+                    <div key={produto.id} className="col-10 col-md-3 m-3">
+                        <RenderProdutoItem produto={produto}/>
+                    </div>
+                )
+        });        
 
 
     return (
         <div>
             <h1 className="mx-5">Roupas</h1>
             <div className="row offset-1">{renderProdutos}</div>
+            <BotoesPage link="roupas" page={page} totalPage={Math.ceil(produtos.count/9)} />
         </div>
     )
 }

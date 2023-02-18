@@ -11,7 +11,7 @@ const Sobre = () => {
                 </div>
                 <div className="col-12 col-md-5 mt-5 sobreCartao">
                     <Card>
-                        <CardHeader className="bg-primary text-white">Visão Geral dos Fatos</CardHeader>
+                        <CardHeader className="bg-primary text-white">Quadro Geral da Empresa</CardHeader>
                         <CardBody>
                             <dl className="row p-1">
                                 <dt className="col-6">Começou</dt>

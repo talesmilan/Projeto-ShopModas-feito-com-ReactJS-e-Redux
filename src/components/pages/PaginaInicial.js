@@ -1,21 +1,39 @@
 import RenderProdutoItem from '../RenderProdutoItem';
-
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { baseUrl } from "../../baseUrl";
 
 const PaginaInicial = () => {
 
-    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
-    
-    const produtoRender = produtos.map((produto) => {
+    const [produtos, setProdutos] = useState({rows: []})
 
-        if (produto.destaque) {
+    useEffect(() => {
+        fetch(baseUrl + "produtos/destaques/1")
+        .then(response => {
+            if (response.ok) {
+                return response
+            } else {
+                var error = new Error('Error' + response.status + ": " + response.statusText)
+                error.response = response
+                throw error
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message)
+            throw errmess
+        })
+        .then(response => response.json())
+        .then(response => {
+            setProdutos(response)
+        })
+        .catch(error => console.log(error.message));
+    }, [])
+
+    const produtoRender = produtos.rows.map((produto) => {
             return (
                 <div key={produto.id} className="col-10 col-md-3 m-3">
                     <RenderProdutoItem produto={produto}/>
                 </div>
             )
-        }
-
     });
 
     return (

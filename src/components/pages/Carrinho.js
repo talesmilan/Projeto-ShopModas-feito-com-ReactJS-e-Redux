@@ -7,9 +7,12 @@ const Carrinho = () => {
 
     const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
 
+    const {login} = useSelector(rootReducer => rootReducer.loginReducer)
+
     const precoTotal = carrinho.reduce((acumulador, produto) => { return acumulador += Number(produto.preco) * produto.quantity}, 0)
 
-    console.log(precoTotal)
+    const quantidade = carrinho.reduce((acumulador, produto) => { return acumulador += produto.quantity}, 0)
+
     const dispatch = useDispatch()
 
     const removeProdutos = (produto) => {
@@ -24,6 +27,43 @@ const Carrinho = () => {
         dispatch(decrementaQuantidade(produto))
     }
 
+    const comprarProdutos = () => {
+        const pedidos = {
+            precoTotal: precoTotal,
+            carrinho: carrinho,
+            quantidade: quantidade,
+            token: login
+        }
+        fetch(baseUrl + 'pedidos', {
+            method: 'POST',
+            body: JSON.stringify(pedidos),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response
+                } else {
+                    var error = new Error('Error' + response.status + ": " + response.statusText)
+                    error.response = response
+                    throw error
+                }
+            }, 
+            error => {
+                var errmess = new Error(error.message)
+                throw errmess
+            })
+            .then(response => response.json())
+            .then(response => {
+                alert("Pedido realizado com sucesso.")
+            })
+            .catch(error => {
+                alert("Não foi possível realizar o seu pedido.")
+                console.log('Não foi possível realizar seu pedido. Erro: ', error.message)
+            })
+    }
 
     const exibeCarrinho = () => {
         if (carrinho.length > 0) {
@@ -49,7 +89,7 @@ const Carrinho = () => {
                 </Card>))}
                 <div className='row text-center'>
                     <p className='lead'>Total: R$ {precoTotal.toFixed(2)}</p>
-                    <Button className='offset-3 p-3 col-6' color="success">Comprar Produtos</Button>
+                    <Button onClick={comprarProdutos} className='offset-3 p-3 col-6' color="success">Comprar Produtos</Button>
                 </div>
     
                 </div>

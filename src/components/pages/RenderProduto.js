@@ -3,9 +3,10 @@ import { useEffect, useState } from "react"
 import CommentButton from "../CommentButton"
 import RenderComentarios from '../RenderComentarios'
 import { useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addComentarios } from '../../redux/comentarios'
 import { addProduto } from '../../redux/carrinho'
+import { useNavigate } from 'react-router-dom';
 
 const RenderProduto = () => {
 
@@ -17,8 +18,23 @@ const RenderProduto = () => {
 
     const dispatch = useDispatch()
 
+    const navigate = useNavigate()
+
+    const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
+
     const adicionaProduto = () => {
         dispatch(addProduto(produto))
+    }
+
+    const comprarProduto = () => {
+        const produtoFind = carrinho.find(produto => produto.id == parametros)
+        if(produtoFind == undefined) {
+            dispatch(addProduto(produto))
+            navigate('/carrinho')
+        } else {
+            navigate('/carrinho')
+        }
+
     }
 
     useEffect(() => {
@@ -69,7 +85,7 @@ const RenderProduto = () => {
                     </div>
                     <div className="col-12 col-sm-4 my-5">
                         <h1>Preço: R${produto.preco}</h1>
-                        <button className="btn btn-success btn-lg my-4 col-12">Comprar</button>
+                        <button onClick={comprarProduto} className="btn btn-success btn-lg my-4 col-12">Comprar</button>
                         <button onClick={adicionaProduto} className="btn btn-danger btn-lg col-12">Adicionar no Carinho</button>
                         <p className="my-5">{produto.descricao}</p>
                     </div>

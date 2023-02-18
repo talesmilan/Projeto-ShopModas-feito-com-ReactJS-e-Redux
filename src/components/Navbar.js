@@ -124,33 +124,33 @@ function NavBar(args) {
                 Produtos
               </DropdownToggle>
               <DropdownMenu>
-                <NavLink className="link-navbar" to="produtos/roupas">
+                <NavLink className="link-navbar" to="produtos/roupas/1">
                   <DropdownItem>Roupas</DropdownItem>
                 </NavLink>
-                <NavLink className="link-navbar" to="produtos/calcados">
+                <NavLink className="link-navbar" to="produtos/calcados/1">
                   <DropdownItem>Calçados</DropdownItem>
                 </NavLink>
-                <NavLink className="link-navbar" to="produtos/acessorios">
+                <NavLink className="link-navbar" to="produtos/acessorios/1">
                   <DropdownItem>Acessórios</DropdownItem>
                 </NavLink>
                 <DropdownItem divider />
-                <NavLink className="link-navbar" to="produtos/camisetas">
+                <NavLink className="link-navbar" to="produtos/camisetas/1">
                   <DropdownItem>Camisetas</DropdownItem>
                 </NavLink>
-                <NavLink className="link-navbar" to="produtos/tenis">
+                <NavLink className="link-navbar" to="produtos/tenis/1">
                   <DropdownItem>Tênis</DropdownItem>
                 </NavLink>
-                <NavLink className="link-navbar" to="produtos/bones">
+                <NavLink className="link-navbar" to="produtos/bones/1">
                   <DropdownItem>Bonés</DropdownItem>
                 </NavLink>
-                <NavLink className="link-navbar" to="produtos/bermudas">
+                <NavLink className="link-navbar" to="produtos/bermudas/1">
                   <DropdownItem>Bermudas</DropdownItem>
                 </NavLink>
                 <DropdownItem divider />
-                <NavLink className="link-navbar" to="produtos/masculino">
+                <NavLink className="link-navbar" to="produtos/masculino/1">
                   <DropdownItem>Masculino</DropdownItem>
                 </NavLink>
-                <NavLink className="link-navbar" to="produtos/feminino">
+                <NavLink className="link-navbar" to="produtos/feminino/1">
                   <DropdownItem>Feminino</DropdownItem>
                 </NavLink>
                 <DropdownItem divider />
@@ -172,7 +172,6 @@ function NavBar(args) {
                 Carrinho ({total})
               </NavLink>
             </NavItem>
-            {console.log(login)}
             {login.token === "" ? (
             <NavItem>
               <div className="nav-link botao-login"  outline onClick={modalLoguin}>Login/Cadastrar</div>
