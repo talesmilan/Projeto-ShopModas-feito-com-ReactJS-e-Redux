@@ -154,7 +154,7 @@ function NavBar(args) {
                   <DropdownItem>Feminino</DropdownItem>
                 </NavLink>
                 <DropdownItem divider />
-                <NavLink className="link-navbar" to="/buscar">
+                <NavLink className="link-navbar" to="/buscar/1">
                   <DropdownItem>Buscar</DropdownItem>
                 </NavLink>
               </DropdownMenu>

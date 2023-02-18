@@ -1,7 +1,10 @@
 import { Button, Input} from "reactstrap"
-import { useState } from "react"
 import RenderProdutoItem from '../RenderProdutoItem'
-import { useSelector } from "react-redux"
+import { useState, useEffect } from "react";
+import { baseUrl } from "../../baseUrl";
+import { useParams } from "react-router-dom";
+import BotoesPage from "../BotoesPage";
+import { useNavigate } from "react-router-dom"
 
 const Buscar = () => {
 
@@ -9,7 +12,37 @@ const Buscar = () => {
 
     const [busca, setBusca] = useState("")
 
-    const {produtos} = useSelector(rootReducer => rootReducer.produtosReducer)
+    const [produtos, setProdutos] = useState({rows: []})
+
+    const params = useParams()
+
+    const page = params.page
+
+    const navegar = useNavigate()
+
+    useEffect(() => {
+        if (busca !== "") {
+            fetch(baseUrl + `buscar/${busca}/${page}`)
+            .then(response => {
+                if (response.ok) {
+                    return response
+                } else {
+                    var error = new Error('Error' + response.status + ": " + response.statusText)
+                    error.response = response
+                    throw error
+                }
+            }, 
+            error => {
+                var errmess = new Error(error.message)
+                throw errmess
+            })
+            .then(response => response.json())
+            .then(response => {
+                setProdutos(response)
+            })
+            .catch(error => console.log(error.message));
+        }
+    }, [page, busca])  
 
     const handleOnChange = (e) => {
         const value = e.target.value
@@ -17,25 +50,20 @@ const Buscar = () => {
     }
 
     const iniciarBusca = () => {
-        setBusca(palavra)
+        navegar("/buscar/1")
+        setBusca(palavra.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
     }
 
     var renderProdutos;
     var produtosEncontrados = 0
     if (busca !== "") {
-        renderProdutos = produtos.map((produto) => {
-            const nomeProduto = produto.nome.toUpperCase()
-            const nomeProdutoSemAcento = nomeProduto.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-            const buscaProduto = busca.toUpperCase()   
-            const buscaSemAcento = buscaProduto.normalize('NFD').replace(/[\u0300-\u036f]/g, "") 
-            if (buscaSemAcento && nomeProdutoSemAcento.substr(0, buscaSemAcento.length) == buscaSemAcento) {
+        renderProdutos = produtos.rows.map((produto) => {
                 produtosEncontrados++
                 return (
                     <div key={produto.id} className="col-10 col-md-3 m-3">
                         <RenderProdutoItem produto={produto} />
                     </div>
                 )
-            }
         });
         if (produtosEncontrados === 0) {
             renderProdutos = (<div>Não foi encontrado nenhum produto com esse nome.</div>)
@@ -59,6 +87,7 @@ const Buscar = () => {
                 <div className="m-5"></div>
             </div>
             <div className="row offset-1">{renderProdutos}</div>
+            {produtosEncontrados > 0 && (<BotoesPage page={page} tipo="buscar" totalPage={Math.ceil(produtos.count/9)} />)}
         </div>
     )
 }

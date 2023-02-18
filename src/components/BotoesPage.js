@@ -1,16 +1,23 @@
 import { Button } from "reactstrap"
 import { useNavigate } from "react-router-dom"
-const BotoesPage = ({page, totalPage, link}) => {
+const BotoesPage = ({page, totalPage, link, tipo}) => {
 
     const navegar = useNavigate()
+
+    if(link === undefined) {
+        link = ""
+    } else {
+        link = `${link}/`
+    }
+
     const avancar = () => {
         if(page < totalPage) {
-            navegar(`/produtos/${link}/${Number(page) + 1}`)
+            navegar(`/${tipo || "produtos"}/${link}${Number(page) + 1}`)
         }
     }
     const voltar = () => {
         if(page > 1) {
-            navegar(`/produtos/${link}/${Number(page) - 1}`)
+            navegar(`/${tipo || "produtos"}/${link}${Number(page) - 1}`)
         }
     }
 

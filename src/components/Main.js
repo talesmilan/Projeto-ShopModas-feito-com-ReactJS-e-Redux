@@ -27,25 +27,6 @@ import { addUser } from '../redux/login'
 const Main = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
-        fetch(baseUrl + 'produtos')
-        .then(response => {
-            if (response.ok) {
-                return response
-            } else {
-                var error = new Error('Error' + response.status + ": " + response.statusText)
-                error.response = response
-                throw error
-            }
-        }, 
-        error => {
-            var errmess = new Error(error.message)
-            throw errmess
-        })
-        .then(response => response.json())
-        .then(response => {
-            dispatch(addProduto(response))
-        })
-        .catch(error => console.log(error.message));
         const tokenRecuperado = localStorage.getItem("user");
         if(tokenRecuperado != undefined) {
             if(tokenRecuperado.token != "") {
@@ -92,7 +73,7 @@ const Main = (props) => {
                     <Route path="/sobre" element={<Sobre />}/>
                     <Route path="/cadastro" element={<Cadastro />}/>
                     <Route path="/carrinho" element={<Carrinho />}/>
-                    <Route path="/buscar" element={<Buscar/>}/>
+                    <Route path="/buscar/:page" element={<Buscar/>}/>
                     <Route path="/produtos/roupas/:page" element={<Roupas/>}/>
                     <Route path="/produtos/calcados/:page" element={<Calcados/>}/>
                     <Route path="/produtos/acessorios/:page" element={<Acessorios/>}/>
