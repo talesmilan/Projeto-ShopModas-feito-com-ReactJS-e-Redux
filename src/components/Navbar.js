@@ -98,7 +98,8 @@ function NavBar(args) {
         })
         .then(response => response.json())
         .then(response => {
-            dispatch(addUser(response))
+          console.log(response)
+            dispatch(addUser(response.token))
             localStorage.setItem('user', JSON.stringify(response))
             alert("Login realizado com sucesso")                
         })

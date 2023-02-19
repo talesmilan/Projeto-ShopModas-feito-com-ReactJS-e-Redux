@@ -23,6 +23,7 @@ import { addProduto } from '../redux/produtos'
 import { baseUrl } from '../baseUrl'
 import Carrinho from './pages/Carrinho'
 import { addUser } from '../redux/login'
+import PedidoAceito from './pages/PedidoAceito'
 
 const Main = (props) => {
     const dispatch = useDispatch()
@@ -83,6 +84,7 @@ const Main = (props) => {
                     <Route path="/produtos/tenis/:page" element={<Tenis/>}/>
                     <Route path="/produtos/feminino/:page" element={<Feminino/>}/>
                     <Route path="/produtos/masculino/:page" element={<Masculino/>}/>
+                    <Route path="/pedido-realizado" element={<PedidoAceito/>}/>
                 </Routes>
                 <Footer />
             </div>

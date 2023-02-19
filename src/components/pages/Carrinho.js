@@ -1,7 +1,10 @@
 import {useSelector, useDispatch} from 'react-redux'
 import { Card, CardHeader, CardImg, CardTitle, Button } from "reactstrap"
 import { baseUrl } from '../../baseUrl'
-import { removeProduto, incrementaQuantidade, decrementaQuantidade } from '../../redux/carrinho'
+import { removeProduto, incrementaQuantidade, decrementaQuantidade, removeTodosProdutos } from '../../redux/carrinho'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import MensagemErros from '../MensagemErros'
 
 const Carrinho = () => {
 
@@ -13,7 +16,11 @@ const Carrinho = () => {
 
     const quantidade = carrinho.reduce((acumulador, produto) => { return acumulador += produto.quantity}, 0)
 
+    const navegar = useNavigate()
+
     const dispatch = useDispatch()
+
+    const [erros, setErros] = useState([])
 
     const removeProdutos = (produto) => {
         dispatch(removeProduto(produto))
@@ -57,10 +64,16 @@ const Carrinho = () => {
             })
             .then(response => response.json())
             .then(response => {
-                alert("Pedido realizado com sucesso.")
+                dispatch(removeTodosProdutos())
+                navegar("/pedido-realizado")
             })
             .catch(error => {
-                alert("Não foi possível realizar o seu pedido.")
+                if(error.message !== undefined) {
+                    var err = []
+                    err.push("Não foi possível realizar seu pedido, verifique se você já fez loguin no sistema.")
+                    setErros(err)
+                    window.scrollTo(0, 140)
+                }
                 console.log('Não foi possível realizar seu pedido. Erro: ', error.message)
             })
     }
@@ -102,6 +115,7 @@ const Carrinho = () => {
     return (
         <div>
             <h1 className="mx-5 my-5">Produtos Adicionados no Carrinho</h1>
+            <div className='container'><MensagemErros erros={erros} /></div>
             {exibeCarrinho()}
         </div>)
 }
