@@ -59,7 +59,6 @@ function NavBar(args) {
 
     const senha = document.querySelector("#password").value
 
-    const lembrar = document.querySelector("#remember").checked
 
     let error = []
     if (user.length === 0) {
@@ -72,7 +71,7 @@ function NavBar(args) {
     setErros(error)
     if (error.length === 0) {
 
-      const login = {usuario: user, senha: senha, lembrar: lembrar}
+      const login = {usuario: user, senha: senha}
 
       modalLoguin()
       fetch(baseUrl + 'login', {
@@ -198,12 +197,6 @@ function NavBar(args) {
               <FormGroup>
                 <Label htmlFor="password">Senha</Label>
                 <Input type="password" id="password" name="password" required/>
-              </FormGroup>
-              <FormGroup check>
-                <Label check>
-                <Input type="checkbox" name="remember" id="remember" />
-                  Se lembrar de mim?
-                </Label>
               </FormGroup>
               <FormGroup>
                 <p className="mt-3">Ainda não tem um cadastro? Crie um <NavLink onClick={modalLoguin} to="/cadastro">clicando aqui.</NavLink></p>

@@ -24,11 +24,20 @@ import { baseUrl } from '../baseUrl'
 import Carrinho from './pages/Carrinho'
 import { addUser } from '../redux/login'
 import PedidoAceito from './pages/PedidoAceito'
+import { adicionaVariosProdutos } from '../redux/carrinho'
 
 const Main = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
         const tokenRecuperado = localStorage.getItem("user");
+        const carrinhoRecuperado = localStorage.getItem("carrinho");
+        if (carrinhoRecuperado !== null) {
+            const carrinhoConvertido = JSON.parse(carrinhoRecuperado)
+            console.log(carrinhoConvertido)
+            if(carrinhoConvertido.objeto !== undefined) {
+                dispatch(adicionaVariosProdutos(carrinhoConvertido.objeto))
+            }
+        }
         if(tokenRecuperado != undefined) {
             if(tokenRecuperado.token != "") {
                 fetch(baseUrl + 'autorizacao', {
