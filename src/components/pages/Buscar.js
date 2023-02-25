@@ -1,10 +1,11 @@
-import { Button, Input} from "reactstrap"
+import { Button, Input, Form} from "reactstrap"
 import RenderProdutoItem from '../RenderProdutoItem'
 import { useState, useEffect } from "react";
 import { baseUrl } from "../../baseUrl";
 import { useParams } from "react-router-dom";
 import BotoesPage from "../BotoesPage";
 import { useNavigate } from "react-router-dom"
+import axios from 'axios'
 
 const Buscar = () => {
 
@@ -22,25 +23,11 @@ const Buscar = () => {
 
     useEffect(() => {
         if (busca !== "") {
-            fetch(baseUrl + `buscar/${busca}/${page}`)
-            .then(response => {
-                if (response.ok) {
-                    return response
-                } else {
-                    var error = new Error('Error' + response.status + ": " + response.statusText)
-                    error.response = response
-                    throw error
-                }
-            }, 
-            error => {
-                var errmess = new Error(error.message)
-                throw errmess
+            axios.get(`${baseUrl}buscar/${busca}/${page}`).then(response => {
+                setProdutos(response.data)
+            }).catch(erro => {
+                console.log(erro.message)
             })
-            .then(response => response.json())
-            .then(response => {
-                setProdutos(response)
-            })
-            .catch(error => console.log(error.message));
         }
     }, [page, busca])  
 
@@ -49,7 +36,8 @@ const Buscar = () => {
         setPalavra(value)
     }
 
-    const iniciarBusca = () => {
+    const iniciarBusca = (e) => {
+        e.preventDefault()
         navegar("/buscar/1")
         setBusca(palavra.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""))
     }
@@ -77,15 +65,15 @@ const Buscar = () => {
     return (
         <div>
             <h1 className="mx-5">Busque por um produto</h1>
-            <div className="offset-sm-3 col-sm-6 my-5 p-5 border rounded border-primary bg-dark">
+            <Form onSubmit={iniciarBusca} className="offset-sm-3 col-sm-6 my-5 p-5 border rounded border-primary bg-dark">
                 <div className="text-center col-7 offset-1 col-sm-6 offset-sm-2 inputBuscar">
                     <Input type="text" value={palavra} onChange={handleOnChange} />
                 </div>
                 <div className="col-sm-4 botaoBuscar">
-                    <Button onClick={iniciarBusca} className="mx-2 bg-danger">Buscar</Button>
+                    <Button type="submit" className="mx-2 bg-danger">Buscar</Button>
                 </div>
                 <div className="m-5"></div>
-            </div>
+            </Form>
             <div className="row offset-1">{renderProdutos}</div>
             {produtosEncontrados > 0 && (<BotoesPage page={page} tipo="buscar" totalPage={Math.ceil(produtos.count/9)} />)}
         </div>

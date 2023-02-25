@@ -18,16 +18,18 @@ import Bones from './pages/Bones'
 import Bermudas from './pages/Bermudas'
 import Feminino from './pages/Feminino'
 import Masculino from './pages/Masculino'
-import { useDispatch } from 'react-redux'
-import { addProduto } from '../redux/produtos'
+import { useDispatch} from 'react-redux'
 import { baseUrl } from '../baseUrl'
 import Carrinho from './pages/Carrinho'
 import { addUser } from '../redux/login'
 import PedidoAceito from './pages/PedidoAceito'
 import { adicionaVariosProdutos } from '../redux/carrinho'
+import axios from 'axios'
 
 const Main = (props) => {
+
     const dispatch = useDispatch()
+
     useEffect(() => {
         const tokenRecuperado = localStorage.getItem("user");
         const carrinhoRecuperado = localStorage.getItem("carrinho");
@@ -40,32 +42,16 @@ const Main = (props) => {
         }
         if(tokenRecuperado != undefined) {
             if(tokenRecuperado.token != "") {
-                fetch(baseUrl + 'autorizacao', {
-                    method: 'POST',
-                    body: tokenRecuperado,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'same-origin'
+                var tokenConvertido = JSON.parse(tokenRecuperado)
+                console.log(tokenConvertido.token)
+                const config = {
+                    headers: { Authorization: `Bearer ${tokenConvertido.token}` }
+                };
+                axios.get(baseUrl + "autorizacao", config).then((response) => {
+                    dispatch(addUser(response))
+                }).catch(erro => {
+                    console.log(erro.message)
                 })
-                    .then(response => {
-                        if (response.ok) {
-                            return response
-                        } else {
-                            var error = new Error('Error' + response.status + ": " + response.statusText)
-                            error.response = response
-                            throw error
-                        }
-                    }, 
-                    error => {
-                        var errmess = new Error(error.message)
-                        throw errmess
-                    })
-                    .then(response => response.json())
-                    .then(response => {
-                        dispatch(addUser(response))
-                    })
-                    .catch(error => {console.log('Post comments ', error.message)})
             }
         }
  
@@ -99,6 +85,5 @@ const Main = (props) => {
             </div>
         )
     }
-
 
 export default Main

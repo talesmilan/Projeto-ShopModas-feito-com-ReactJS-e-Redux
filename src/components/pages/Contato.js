@@ -2,7 +2,11 @@ import { FormGroup, Form, Label, Input, Button } from "reactstrap"
 import { useState } from "react"
 import { baseUrl } from "../../baseUrl"
 import MensagemErros from '../MensagemErros'
-
+import axios from 'axios'
+import { useNavigate } from "react-router-dom"
+import { addMessage } from "../../redux/messageSuccess"
+import { useDispatch } from "react-redux"
+import validator from 'validator'
 
 const Contato = () => {
 
@@ -17,6 +21,10 @@ const Contato = () => {
     
       const [ erros, setErros ] = useState([])
     
+      const navegar = useNavigate()
+
+      const dispatch = useDispatch()
+
       const handleContato = (e) => {
         e.preventDefault()
 
@@ -28,19 +36,13 @@ const Contato = () => {
         if (dados.nome.length !== 0 && (dados.nome.length < 5 || dados.nome.length > 40)) {
             error.push("O nome deve ter entre 5 a 40 caracteres.")
         }
-        if (dados.email.length !== 0 && (dados.email.length < 5 || dados.email.length > 40)) {
-            error.push("O email deve ter entre 5 a 40 caracteres.")
-        }
-        if (dados.email.length !== 0 && !dados.email.includes("@")) {
-            error.push('O email deve conter um arroba "@".')
-        }
-        if (dados.email.length !== 0 && !dados.email.includes(".")) {
-            error.push('O email deve conter um ponto.')
+        const emailIsValid = validator.isEmail(dados.email)
+        if (!emailIsValid) {
+            error.push("O email não é válido.")
         }
 
-        console.log("error: "+ error)
         setErros(error)
-        console.log("erros: " + erros)
+
         if (error.length === 0) {
 
             const novaMensagem = {
@@ -50,37 +52,18 @@ const Contato = () => {
                 mensagem: dados.mensagem,
                 promocoes: dados.promocoes
             }
-    
-            novaMensagem.data = new Date().toISOString()
-            
-            fetch(baseUrl + 'mensagens', {
-                method: 'POST',
-                body: JSON.stringify(novaMensagem),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'same-origin'
+            axios.post(baseUrl + 'mensagens', novaMensagem).then((response) => {
+                navegar("/")
+                window.scrollTo(0, 140)
+                dispatch(addMessage("Sua mensagem foi enviada com sucesso."))
+            }).catch(erro => {
+                if(erro.response.data.erro != undefined) {
+                    var err = []
+                    err.push("Você deve preencher todos os campos.")
+                    setErros(err)
+                    window.scrollTo(0, 140)
+                }
             })
-                .then(response => {
-                    if (response.ok) {
-                        return response
-                    } else {
-                        var error = new Error('Error' + response.status + ": " + response.statusText)
-                        error.response = response
-                        throw error
-                    }
-                }, 
-                error => {
-                    var errmess = new Error(error.message)
-                    throw errmess
-                })
-                .then(response => response.json())
-                .then(response => {
-                    alert("Mensagem enviada com sucesso")
-                    
-                })
-                .catch(error => {console.log('Post comments ', error.message)
-                    alert("Sua mensagem não pode ser enviada.\nErro: " + error.message)})
         } else {
             window.scrollTo(0, 140)
         }

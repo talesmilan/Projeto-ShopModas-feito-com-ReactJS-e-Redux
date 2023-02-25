@@ -1,31 +1,22 @@
 import RenderProdutoItem from '../RenderProdutoItem';
 import { useState, useEffect } from 'react';
 import { baseUrl } from "../../baseUrl";
+import axios from 'axios'
+import { useSelector } from 'react-redux'
+import FlashMessage from "../FlashMessage"
 
 const PaginaInicial = () => {
 
     const [produtos, setProdutos] = useState({rows: []})
 
+    const {message} = useSelector(rootReducer => rootReducer.messageSuccessReducer)
+
     useEffect(() => {
-        fetch(baseUrl + "produtos/destaques/1")
-        .then(response => {
-            if (response.ok) {
-                return response
-            } else {
-                var error = new Error('Error' + response.status + ": " + response.statusText)
-                error.response = response
-                throw error
-            }
-        }, 
-        error => {
-            var errmess = new Error(error.message)
-            throw errmess
+        axios.get(baseUrl + "produtos/destaques/1").then(response => {
+            setProdutos(response.data)
+        }).catch(erro => {
+            console.log(erro.message)
         })
-        .then(response => response.json())
-        .then(response => {
-            setProdutos(response)
-        })
-        .catch(error => console.log(error.message));
     }, [])
 
     const produtoRender = produtos.rows.map((produto) => {
@@ -39,9 +30,8 @@ const PaginaInicial = () => {
     return (
         <div>
             <h1 className='mx-5'>Destaques</h1>
+            <div className='container mt-4'><FlashMessage time={10000}/></div>
             <div className="row offset-1">{produtoRender}</div>
-            
-
         </div>
     )
 }

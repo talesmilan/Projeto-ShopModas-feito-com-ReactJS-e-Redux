@@ -4,9 +4,10 @@ import CommentButton from "../CommentButton"
 import RenderComentarios from '../RenderComentarios'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { addComentarios } from '../../redux/comentarios'
 import { addProduto } from '../../redux/carrinho'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { addComentarios } from '../../redux/comentarios'
 
 const RenderProduto = () => {
 
@@ -38,46 +39,22 @@ const RenderProduto = () => {
     }
 
     useEffect(() => {
-        fetch(baseUrl + 'comentarios')
-        .then(response => {
-            if (response.ok) {
-                return response
-            } else {
-                var error = new Error('Error' + response.status + ": " + response.statusText)
-                error.response = response
-                throw error
-            }
-        }, 
-        error => {
-            var errmess = new Error(error.message)
-            throw errmess
+        axios.get(baseUrl + `produto/${parametros}`).then(response => {
+            setProduto(response.data)
+        }).catch(erro => {
+            console.log(erro)
         })
-        .then(response => response.json())
-        .then(response => dispatch(addComentarios(response)))
-        .catch(error => console.log(error.message));
-
-        fetch(baseUrl + `produto/${parametros}`)
-        .then(response => {
-            if (response.ok) {
-                return response
-            } else {
-                var error = new Error('Error' + response.status + ": " + response.statusText)
-                error.response = response
-                throw error
-            }
-        }, 
-        error => {
-            var errmess = new Error(error.message)
-            throw errmess
+        axios.get(baseUrl + "comentarios/" + parametros).then(response => {
+            dispatch(addComentarios(response.data))
+        }).catch(erro => {
+            console.log(erro)
         })
-        .then(response => response.json())
-        .then(response => setProduto(response))
-
     }, [])
 
     if (produto.nome != "") {
         return (
             <div>
+                {console.log(produto)}
                 <h1 className="mx-5">{produto.nome}</h1>
                 <div className="row">
                     <div className="offset-sm-1 col-12 col-sm-5 my-5 text-center">

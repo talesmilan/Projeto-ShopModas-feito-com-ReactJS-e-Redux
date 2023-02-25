@@ -25,6 +25,9 @@ import { baseUrl } from '../baseUrl';
 import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from '../redux/login';
 import { removeUser } from '../redux/login';
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import { addMessage } from '../redux/messageSuccess';
 
 function NavBar(args) {
 
@@ -38,7 +41,9 @@ function NavBar(args) {
 
   const dispatch = useDispatch()
   
-  const {login} = useSelector(rootReducer => rootReducer.loginReducer)
+  const navegar = useNavigate()
+
+  const {token} = useSelector(rootReducer => rootReducer.loginReducer)
 
   const total = carrinho.reduce((acumulador, produto) => { return acumulador += produto.quantity}, 0)
   const toggle = () => setIsOpen(!isOpen);
@@ -74,36 +79,16 @@ function NavBar(args) {
       const login = {usuario: user, senha: senha}
 
       modalLoguin()
-      fetch(baseUrl + 'login', {
-        method: 'POST',
-        body: JSON.stringify(login),
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'same-origin'
-    })
-        .then(response => {
-            if (response.ok) {
-                return response
-            } else {
-                var error = new Error('Error' + response.status + ": " + response.statusText)
-                error.response = response
-                throw error
-            }
-        }, 
-        error => {
-            var errmess = new Error(error.message)
-            throw errmess
-        })
-        .then(response => response.json())
-        .then(response => {
-          console.log(response)
-            dispatch(addUser(response.token))
-            localStorage.setItem('user', JSON.stringify(response))
-            alert("Login realizado com sucesso")                
-        })
-        .catch(error => {console.log('Post comments ', error.message)
-            alert("Seu login não pode ser realizado.\nErro: " + error.message)})
+
+      axios.post(baseUrl + 'login', login).then((response) => {
+        dispatch(addUser(response.data.token))
+        localStorage.setItem('user', JSON.stringify(response.data))
+        navegar("/")
+        window.scrollTo(0, 140)
+        dispatch(addMessage("Seu login foi realizado com sucesso."))
+      }).catch((erro) => {
+        alert("Seu login não pode ser realizado.\nErro: " + erro.message)
+      })
     }
 
   }
@@ -172,7 +157,7 @@ function NavBar(args) {
                 Carrinho ({total})
               </NavLink>
             </NavItem>
-            {login.token === "" ? (
+            {token === "" ? (
             <NavItem>
               <div className="nav-link botao-login"  outline onClick={modalLoguin}>Login/Cadastrar</div>
             </NavItem>
@@ -199,7 +184,7 @@ function NavBar(args) {
                 <Input type="password" id="password" name="password" required/>
               </FormGroup>
               <FormGroup>
-                <p className="mt-3">Ainda não tem um cadastro? Crie um <NavLink onClick={modalLoguin} to="/cadastro">clicando aqui.</NavLink></p>
+                <p className="mt-3">Ainda não tem uma conta? Crie uma <NavLink onClick={modalLoguin} to="/cadastro">clicando aqui.</NavLink></p>
               </FormGroup>
               <Button className='mt-2' type="submit" value="submit" color='primary'>Login</Button>
             </Form>

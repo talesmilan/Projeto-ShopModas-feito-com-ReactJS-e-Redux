@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader } from "reactstrap"
 const Sobre = () => {
     return (
         <div>
-            <h1 className="mx-5">Nossa História</h1>
+            <h1 className="mx-5">Sobre Nós</h1>
             <div className="row">
                 <div className="offset-1 col-10 col-md-5 mt-5 sobreTexto text-center">
                     <p>A ShopModas é uma loja de roupas online com mais de 10 anos de experiência no mercado. Desde sua criação, temos trabalhado incansavelmente para oferecer aos nossos clientes uma ampla variedade de roupas de alta qualidade e estilos modernos. Nós acreditamos que todos merecem se sentir bonitos e confiantes em suas roupas, e temos dedicado nossa empresa para tornar isso possível.</p>

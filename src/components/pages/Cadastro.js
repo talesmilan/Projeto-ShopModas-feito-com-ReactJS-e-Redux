@@ -3,10 +3,13 @@ import { useState } from 'react';
 import MensagemErros from '../MensagemErros';
 import ValidaCPF from '../ValidaCPF';
 import { baseUrl } from '../../baseUrl';
-
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addMessage } from '../../redux/messageSuccess';
+import validator from 'validator'
 
 const Cadastro = () => {
-
 
     const [dadosCadastro, setDadosCadastro] = useState({
         nome: "",
@@ -26,7 +29,11 @@ const Cadastro = () => {
     
     const [ erros, setErros ] = useState([])
 
-      const handleCadastro = (e) => {
+    const navegar = useNavigate()
+
+    const dispatch = useDispatch()
+
+    const handleCadastro = (e) => {
         e.preventDefault()
 
         const error = []
@@ -37,14 +44,9 @@ const Cadastro = () => {
         if (dadosCadastro.nome.length !== 0 && (dadosCadastro.nome.length < 5 || dadosCadastro.nome.length > 40)) {
             error.push("O nome deve ter entre 5 a 40 caracteres.")
         }
-        if (dadosCadastro.email.length !== 0 && (dadosCadastro.email.length < 5 || dadosCadastro.email.length > 40)) {
-            error.push("O email deve ter entre 5 a 40 caracteres.")
-        }
-        if (dadosCadastro.email.length !== 0 && !dadosCadastro.email.includes("@")) {
-            error.push('O email deve conter um arroba "@".')
-        }
-        if (dadosCadastro.email.length !== 0 && !dadosCadastro.email.includes(".")) {
-            error.push('O email deve conter um ponto.')
+        const emailIsValid = validator.isEmail(dadosCadastro.email)
+        if (!emailIsValid) {
+            error.push("O email não é válido.")
         }
         const cpf = new ValidaCPF(dadosCadastro.cpf)
         if (dadosCadastro.cpf.length !== 0 && !cpf.valida()) {
@@ -56,6 +58,7 @@ const Cadastro = () => {
         if (dadosCadastro.senha.length !== 0 && (dadosCadastro.senha.length < 6 || dadosCadastro.senha.length > 10)) {
             error.push('A senha deve ter entre 6 a 10 digitos.')
         }
+        
         if (dadosCadastro.senha.length !== 0 && dadosCadastro.senha !== dadosCadastro.password) {
             error.push('Você deve digitar a senha que você quer criar duas vezes corretamente.')
         }
@@ -77,34 +80,18 @@ const Cadastro = () => {
             numero: dadosCadastro.numero,
             promocoes: dadosCadastro.promocoes
         }
-    
-        fetch(baseUrl + 'cadastro', {
-            method: 'POST',
-            body: JSON.stringify(novoCadastro),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
+        axios.post(baseUrl + 'cadastro', novoCadastro).then((response) => {
+            navegar("/")
+            window.scrollTo(0, 140)
+            dispatch(addMessage("Seu cadastro foi realizado com sucesso."))
+        }).catch((erro) => {
+            var err = []
+            if(erro.response.data.erro != undefined) {
+                err.push(erro.response.data.erro) 
+                setErros(err)
+                window.scrollTo(0, 140)
+            }
         })
-            .then(response => {
-                if (response.ok) {
-                    return response
-                } else {
-                    var error = new Error('Error' + response.status + ": " + response.statusText)
-                    error.response = response
-                    throw error
-                }
-            }, 
-            error => {
-                var errmess = new Error(error.message)
-                throw errmess
-            })
-            .then(response => response.json())
-            .then(response => {
-                alert("Cadastro realizado com sucesso")                
-            })
-            .catch(error => {console.log('Post comments ', error.message)
-                alert("Seu cadastro não pode ser realizado.\nErro: " + error.message)})
         } else {
             window.scrollTo(0, 140)
         }

@@ -5,12 +5,13 @@ import { removeProduto, incrementaQuantidade, decrementaQuantidade, removeTodosP
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import MensagemErros from '../MensagemErros'
+import axios from 'axios'
 
 const Carrinho = () => {
 
     const {carrinho} = useSelector(rootReducer => rootReducer.carrinhoReducer)
 
-    const {login} = useSelector(rootReducer => rootReducer.loginReducer)
+    const {token} = useSelector(rootReducer => rootReducer.loginReducer)
 
     const precoTotal = carrinho.reduce((acumulador, produto) => { return acumulador += Number(produto.preco) * produto.quantity}, 0)
 
@@ -35,47 +36,29 @@ const Carrinho = () => {
     }
 
     const comprarProdutos = () => {
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+
         const pedidos = {
             precoTotal: precoTotal,
             carrinho: carrinho,
-            quantidade: quantidade,
-            token: login
+            quantidade: quantidade
         }
-        fetch(baseUrl + 'pedidos', {
-            method: 'POST',
-            body: JSON.stringify(pedidos),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response
-                } else {
-                    var error = new Error('Error' + response.status + ": " + response.statusText)
-                    error.response = response
-                    throw error
-                }
-            }, 
-            error => {
-                var errmess = new Error(error.message)
-                throw errmess
-            })
-            .then(response => response.json())
-            .then(response => {
-                dispatch(removeTodosProdutos())
-                navegar("/pedido-realizado")
-            })
-            .catch(error => {
-                if(error.message !== undefined) {
+        axios.post(baseUrl + "pedidos", pedidos, config).then((response) => {
+            dispatch(removeTodosProdutos())
+            navegar("/pedido-realizado")
+        }).catch(erro => {
+            if(erro.response.data.erro !== undefined) {
+                if(erro.response.data.erro === "Token inválido.") {
                     var err = []
                     err.push("Não foi possível realizar seu pedido, verifique se você já fez loguin no sistema.")
                     setErros(err)
                     window.scrollTo(0, 140)
                 }
-                console.log('Não foi possível realizar seu pedido. Erro: ', error.message)
-            })
+            }
+            console.log(erro)
+        })
     }
 
     const exibeCarrinho = () => {

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../../baseUrl";
 import { useParams } from "react-router-dom";
 import BotoesPage from "../BotoesPage";
+import axios from 'axios'
 
 const Acessorios = () => {
 
@@ -13,25 +14,11 @@ const Acessorios = () => {
     const page = params.page
 
     useEffect(() => {
-        fetch(baseUrl + "produtos/acessorios/" + page)
-        .then(response => {
-            if (response.ok) {
-                return response
-            } else {
-                var error = new Error('Error' + response.status + ": " + response.statusText)
-                error.response = response
-                throw error
-            }
-        }, 
-        error => {
-            var errmess = new Error(error.message)
-            throw errmess
+        axios.get(baseUrl + "produtos/acessorios/" + page).then(response => {
+            setProdutos(response.data)
+        }).catch(erro => {
+            console.log(erro.message)
         })
-        .then(response => response.json())
-        .then(response => {
-            setProdutos(response)
-        })
-        .catch(error => console.log(error.message));
     }, [page])
 
 
