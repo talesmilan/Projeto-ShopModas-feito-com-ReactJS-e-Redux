@@ -4,6 +4,7 @@ import { baseUrl } from '../baseUrl'
 import MensagemErros from './MensagemErros'
 import { useSelector, useDispatch } from 'react-redux'
 import { addComentarios } from '../redux/comentarios'
+import axios from 'axios'
 
 const CommentButton = ({produtoId}) => {
 
@@ -52,37 +53,15 @@ const CommentButton = ({produtoId}) => {
             autor: nome,
             comentario: comment
         }
-    
-        newComment.data = new Date().toISOString()
-    
-        fetch(baseUrl + 'comentarios', {
-            method: 'POST',
-            body: JSON.stringify(newComment),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
+        axios.post(baseUrl + "comentarios", newComment).then(response => {
+            dispatch(addComentarios([...comentarios, response.data]))
+        }).catch(erro => {
+            if(erro.response.data.erro !== undefined) {
+                var err = []
+                err.push(erro.response.data.erro)
+                setErros(err)
+            }
         })
-            .then(response => {
-                if (response.ok) {
-                    return response
-                } else {
-                    var error = new Error('Error' + response.status + ": " + response.statusText)
-                    error.response = response
-                    throw error
-                }
-            }, 
-            error => {
-                var errmess = new Error(error.message)
-                throw errmess
-            })
-            .then(response => response.json())
-            .then(response => {
-                alert("Comentario adicionado com sucesso")
-                dispatch(addComentarios([...comentarios, response]))
-            })
-            .catch(error => {console.log('Post comments ', error.message)
-                alert("Seu comentário não pode ser postado.\nErro: " + error.message)})
     }
 
             
