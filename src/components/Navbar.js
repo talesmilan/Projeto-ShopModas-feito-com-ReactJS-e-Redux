@@ -33,7 +33,7 @@ function NavBar(args) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [isModalLoguinOpen, setIsModalLoguinOpen] = useState(false)
+  const [isModalLoginOpen, setIsModalLoginOpen] = useState(false)
 
   const [erros, setErros] = useState([])
 
@@ -48,8 +48,8 @@ function NavBar(args) {
   const total = carrinho.reduce((acumulador, produto) => { return acumulador += produto.quantity}, 0)
   const toggle = () => setIsOpen(!isOpen);
 
-  const modalLoguin = () => {
-    setIsModalLoguinOpen(!isModalLoguinOpen)  
+  const modalLogin = () => {
+    setIsModalLoginOpen(!isModalLoginOpen)  
   }
 
   const modalSair = () => {
@@ -78,7 +78,7 @@ function NavBar(args) {
 
       const login = {usuario: user, senha: senha}
 
-      modalLoguin()
+      modalLogin()
 
       axios.post(baseUrl + 'login', login).then((response) => {
         dispatch(addUser(response.data.token))
@@ -159,7 +159,7 @@ function NavBar(args) {
             </NavItem>
             {token === "" ? (
             <NavItem>
-              <div className="nav-link botao-login"  outline onClick={modalLoguin}>Login/Cadastrar</div>
+              <div className="nav-link botao-login"  outline onClick={modalLogin}>Login/Cadastrar</div>
             </NavItem>
             ) : (
               <NavItem>
@@ -170,8 +170,8 @@ function NavBar(args) {
         </Collapse>
       </Navbar>
       
-      <Modal isOpen={isModalLoguinOpen} toggle={modalLoguin} >
-        <ModalHeader toggle={modalLoguin}>Login</ModalHeader>
+      <Modal isOpen={isModalLoginOpen} toggle={modalLogin} >
+        <ModalHeader toggle={modalLogin}>Login</ModalHeader>
           <ModalBody>
             <MensagemErros erros={erros} />
             <Form onSubmit={handleLogin}>
@@ -184,7 +184,7 @@ function NavBar(args) {
                 <Input type="password" id="password" name="password" required/>
               </FormGroup>
               <FormGroup>
-                <p className="mt-3">Ainda não tem uma conta? Crie uma <NavLink onClick={modalLoguin} to="/cadastro">clicando aqui.</NavLink></p>
+                <p className="mt-3">Ainda não tem uma conta? Crie uma <NavLink onClick={modalLogin} to="/cadastro">clicando aqui.</NavLink></p>
               </FormGroup>
               <Button className='mt-2' type="submit" value="submit" color='primary'>Login</Button>
             </Form>
